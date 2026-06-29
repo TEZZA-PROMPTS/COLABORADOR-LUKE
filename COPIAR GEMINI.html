@@ -1,1 +1,399 @@
-LUKE
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>LUKE COLABORADOR • TEZZA PROMPTS</title>
+    <meta name="description" content="TEZZA PROMPTS OFICIAL - LUKE COLABORADOR">
+
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="LUKE COLABORADOR • TEZZA PROMPTS">
+    <meta property="og:description" content="TEZZA PROMPTS OFICIAL">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Pixelify+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --pokemon-blue: #0066cc;
+            --pokemon-dark: #000000;
+            --pokemon-light: #ffffff;
+            --accent-blue: #0080ff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Pixelify Sans', sans-serif;
+        }
+
+        html {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            background: #0a0a1a; /* Fundo escuro sólido */
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            color: var(--pokemon-dark);
+            overflow: hidden;
+            position: relative;
+            image-rendering: -webkit-optimize-contrast;
+        }
+
+        .card-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 450px;
+            aspect-ratio: 3/4;
+            perspective: 1500px;
+            z-index: 10;
+        }
+
+        .card-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-style: preserve-3d;
+        }
+
+        .card-container.flipped {
+            transform: rotateY(360deg);
+        }
+
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            border: 8px solid var(--pokemon-dark);
+            border-radius: 15px;
+            box-shadow: 
+                0 20px 60px rgba(0, 0, 0, 0.7),
+                inset 0 0 0 2px var(--accent-blue),
+                0 0 30px rgba(0, 102, 204, 0.4);
+            overflow: hidden;
+        }
+
+        /* FRENTE */
+        .card-front {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            z-index: 2;
+        }
+
+        .card-content {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            z-index: 3;
+            padding: 25px;
+        }
+
+        .header-section {
+            text-align: center;
+            margin-bottom: 20px;
+            flex-shrink: 0;
+        }
+
+        .header-title {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: var(--accent-blue);
+            text-shadow: 
+                2px 2px 0px var(--pokemon-dark),
+                0 0 10px rgba(0, 128, 255, 0.5);
+            letter-spacing: 2px;
+            margin-bottom: 5px;
+        }
+
+        .header-subtitle {
+            font-family: 'Pixelify Sans', sans-serif;
+            font-size: 0.9rem;
+            color: var(--accent-blue);
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            text-shadow: 1px 1px 0px var(--pokemon-dark);
+        }
+
+        .card-white-area {
+            flex: 1;
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.98) 0%, rgba(245, 245, 245, 0.98) 100%);
+            border: 3px solid var(--pokemon-dark);
+            border-radius: 8px;
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            overflow-y: auto;
+            box-shadow: 
+                inset 0 2px 5px rgba(0, 0, 0, 0.1),
+                0 0 0 2px var(--accent-blue);
+        }
+
+        .section-label {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.65rem;
+            color: var(--pokemon-dark);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 700;
+            margin-bottom: 3px;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--pokemon-dark);
+            border-radius: 4px;
+            font-family: 'Pixelify Sans', sans-serif;
+            font-size: 0.8rem;
+            background: white;
+            color: var(--pokemon-dark);
+            box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.2);
+            transition: all 0.2s;
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .input-field:focus {
+            outline: none;
+            box-shadow: 3px 3px 0px var(--pokemon-blue);
+            transform: translate(-1px, -1px);
+        }
+
+        .copy-btn {
+            width: 100%;
+            background: linear-gradient(135deg, var(--pokemon-blue), var(--accent-blue));
+            color: var(--pokemon-light);
+            border: 3px solid var(--pokemon-dark);
+            padding: 12px;
+            border-radius: 6px;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.65rem;
+            font-weight: 900;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.4);
+            flex-shrink: 0;
+            margin-top: 10px;
+        }
+
+        .copy-btn:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.4);
+            filter: brightness(1.1);
+        }
+
+        .card-footer {
+            text-align: center;
+            margin-top: 12px;
+            font-size: 0.65rem;
+            color: var(--accent-blue);
+            font-family: 'Pixelify Sans', sans-serif;
+            font-weight: 600;
+            line-height: 1.6;
+            text-shadow: 1px 1px 0px var(--pokemon-dark);
+        }
+
+        .social-tag {
+            color: var(--accent-blue);
+            text-decoration: none;
+            font-weight: 900;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.6rem;
+        }
+
+        /* VERSO */
+        .card-back {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            transform: rotateY(180deg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .pokemon-image {
+            width: 85%;
+            height: 85%;
+            object-fit: contain;
+            filter: drop-shadow(0 0 20px rgba(0, 128, 255, 0.4));
+        }
+
+        /* Notificação */
+        #notification {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.8);
+            background: var(--accent-blue);
+            color: var(--pokemon-dark);
+            padding: 30px 50px;
+            border-radius: 10px;
+            font-weight: 900;
+            font-family: 'Press Start 2P', cursive;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            visibility: hidden;
+            opacity: 0;
+            z-index: 2000;
+            box-shadow: 8px 8px 0px rgba(0, 0, 0, 0.6);
+            border: 4px solid var(--pokemon-dark);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            font-size: 0.75rem;
+        }
+
+        #notification.show {
+            visibility: visible;
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        #hiddenTextarea {
+            position: absolute;
+            left: -9999px;
+            opacity: 0;
+        }
+
+        /* Controle de Áudio (Oculto) */
+        #bgMusic {
+            display: none;
+        }
+
+        @media (max-width: 500px) {
+            .card-wrapper { max-width: 100%; }
+            .header-title { font-size: 1.4rem; }
+            .input-field { min-height: 100px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Áudio de Fundo -->
+    <audio id="bgMusic" loop>
+        <source src="musicluke.mp3" type="audio/mpeg">
+        Seu navegador não suporta o elemento de áudio.
+    </audio>
+
+    <div class="card-wrapper">
+        <div class="card-container" id="cardContainer">
+            
+            <!-- FRENTE -->
+            <div class="card-face card-front">
+                <div class="card-content">
+                    <div class="header-section">
+                        <div class="header-title">COLABORADOR LUKE</div>
+                        <div class="header-subtitle">GEMINI [MODO PRO]</div>
+                    </div>
+
+                    <div class="card-white-area">
+                        <div>
+                            <div class="section-label">SEU PROMPT:</div>
+                            <textarea class="input-field" id="userPrompt" placeholder="[COLOQUE O SEU PROMPT AQUI]"></textarea>
+                        </div>
+                        
+                        <button class="copy-btn" id="copyBtn" onclick="copyPrompt()">Copiar Prompt</button>
+                    </div>
+
+                    <div class="card-footer">
+                        MARQUE <a href="#" class="social-tag">@imvuluke</a><br>
+                        LUKE • TEZZA PROMPTS — Conteúdo protegido.
+                    </div>
+                </div>
+            </div>
+
+            <!-- VERSO -->
+            <div class="card-face card-back">
+                <img class="pokemon-image" src="https://i.ibb.co/7dhxrdGR/vfvgfvbx.png" alt="Pokémon">
+            </div>
+
+        </div>
+    </div>
+
+    <div id="notification">PROMPT COPIADO!</div>
+    <textarea id="hiddenTextarea"></textarea>
+
+    <script>
+        const userPromptInput = document.getElementById('userPrompt');
+        const cardContainer = document.getElementById('cardContainer');
+        const bgMusic = document.getElementById('bgMusic');
+
+        // Tentar tocar a música assim que possível
+        window.addEventListener('DOMContentLoaded', () => {
+            // Tenta tocar automaticamente
+            const playPromise = bgMusic.play();
+
+            if (playPromise !== undefined) {
+                playPromise.catch(error => {
+                    // Autoplay foi bloqueado. Tocar na primeira interação do usuário.
+                    console.log("Autoplay bloqueado pelo navegador. Aguardando interação.");
+                    const playOnInteraction = () => {
+                        bgMusic.play();
+                        window.removeEventListener('click', playOnInteraction);
+                        window.removeEventListener('touchstart', playOnInteraction);
+                    };
+                    window.addEventListener('click', playOnInteraction);
+                    window.addEventListener('touchstart', playOnInteraction);
+                });
+            }
+        });
+
+        function copyPrompt() {
+            const userText = userPromptInput.value || "[COLOQUE O SEU PROMPT AQUI]";
+            const textToCopy = `GEMINI [MODO PRO]\n\n${userText}\n\n@imvuluke`;
+            const notification = document.getElementById('notification');
+            const copyBtn = document.getElementById('copyBtn');
+
+            // Giro 360
+            cardContainer.classList.toggle('flipped');
+
+            // Garantir que a música toque se ainda não começou
+            if (bgMusic.paused) {
+                bgMusic.play();
+            }
+
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(textToCopy).then(() => {
+                    executarSucesso();
+                }).catch(() => fallbackCopy(textToCopy));
+            } else {
+                fallbackCopy(textToCopy);
+            }
+
+            function fallbackCopy(text) {
+                const textarea = document.getElementById('hiddenTextarea');
+                textarea.value = text;
+                textarea.select();
+                document.execCommand('copy');
+                executarSucesso();
+            }
+
+            function executarSucesso() {
+                copyBtn.innerText = "COPIADO!";
+                notification.classList.add('show');
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                    copyBtn.innerText = "Copiar Prompt";
+                    cardContainer.classList.toggle('flipped');
+                }, 3000);
+            }
+        }
+    </script>
+</body>
+</html>

@@ -48,26 +48,7 @@
             image-rendering: pixelated;
         }
 
-        /* Fundo com Correntes GIGANTES, PARALELAS e DENSAS (Distância Mínima) */
-        .chain-background {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url('https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExdTloODhxa2FlMWdvYjU5cTZzNHNjZ3FtaTBhNGZycXZxbzJjcTdkbyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/kKKHCJIBTvLgFd5avb/giphy.gif');
-            background-repeat: repeat;
-            background-size: auto 350px; /* Correntes GIGANTES */
-            z-index: -2;
-            filter: drop-shadow(0 0 20px var(--accent-blue));
-            animation: chainPulse 3s ease-in-out infinite alternate;
-            opacity: 0.8;
-        }
-
-        @keyframes chainPulse {
-            0% { filter: drop-shadow(0 0 10px var(--accent-blue)) brightness(0.7); transform: scale(1); }
-            100% { filter: drop-shadow(0 0 50px var(--accent-blue)) brightness(1.6); transform: scale(1.05); }
-        }
+        
 
         /* Chuva de Corações AUMENTADOS */
         .heart {
@@ -85,6 +66,20 @@
         @keyframes fall {
             to { transform: translateY(120vh) rotate(360deg); }
         }
+
+/* GIF adicional caindo */
+.chain-fall{
+    position: fixed;
+    top:-120px;
+    width:90px;
+    height:90px;
+    background:url('https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExamQ4dzAxa3FrdG43YnM3Nndzb3pmdWN4YmhhZWh3NTBzaTBmdDAzdyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/ZZYSw0KsokgwXU2qjL/giphy.gif') no-repeat center;
+    background-size:contain;
+    pointer-events:none;
+    z-index:-1;
+    animation:fall linear infinite;
+}
+
 
         /* Estilo da Carta Pulsante */
         .card-wrapper {
@@ -377,8 +372,6 @@
 </head>
 <body>
 
-    <!-- Fundo com Correntes Gigantes Densas -->
-    <div class="chain-background"></div>
 
     <!-- Áudio de Fundo -->
     <audio id="bgMusic" loop>
@@ -468,6 +461,20 @@
             }
         }
         createHearts();
+        // GIFS adicionais
+        for(let i=0;i<18;i++){
+          setTimeout(()=>{
+            const gif=document.createElement('div');
+            gif.className='chain-fall';
+            gif.style.left=Math.random()*100+'vw';
+            gif.style.animationDuration=(Math.random()*5+5)+'s';
+            const s=Math.random()*40+70;
+            gif.style.width=s+'px';
+            gif.style.height=s+'px';
+            document.body.appendChild(gif);
+            gif.addEventListener('animationiteration',()=>gif.style.left=Math.random()*100+'vw');
+          },i*500);
+        }
 
         function flipCard() {
             cardContainer.classList.toggle('flipped');

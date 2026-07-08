@@ -5,15 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <title>LUKE • TEZZA PROMPTS</title>
-    <meta name="description" content="TEZZA PROMPTS OFICIAL - LUKE">
+    <meta name="description" content="TEZZA PROMPTS OFICIAL">
 
     <!-- Meta tags para link limpo e profissional - SEM IMAGENS -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="LUKE • TEZZA PROMPTS">
-    <meta property="og:description" content="Prompts oficiais do LUKE - Conteúdo exclusivo e protegido">
+    <meta property="og:description" content="TEZZA PROMPTS OFICIAL">
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="LUKE • TEZZA PROMPTS">
-    <meta name="twitter:description" content="Prompts oficiais do LUKE - Conteúdo exclusivo e protegido">
+    <meta name="twitter:description" content="TEZZA PROMPTS OFICIAL">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -68,12 +68,12 @@
         /* Container circular para os Pokémon - Responsivo */
         .pokemon-circle-container {
             position: absolute;
-            width: 90vw;
-            height: 90vw;
-            max-width: 500px;
-            max-height: 500px;
+            width: 95vw;
+            height: 95vw;
+            max-width: 600px; /* Aumentado o tamanho do círculo */
+            max-height: 600px;
             top: 50%;
-            left: 50%;
+            left: 45%; /* Deslocado para a esquerda */
             transform: translate(-50%, -50%);
             z-index: 4;
         }
@@ -156,14 +156,34 @@
         /* Bichinhos Gifs em círculo ao redor da pokébola */
         .gif-bixinho {
             position: absolute;
-            width: 100px;
+            width: 110px; /* Aumentado o tamanho dos Pokémon */
             height: auto;
             pointer-events: auto;
             animation: pulseBixinho 3s infinite ease-in-out;
             z-index: 5;
             filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.5));
             cursor: pointer;
-            transition: filter 0.3s ease;
+            transition: filter 0.3s ease, width 0.3s ease;
+        }
+
+        @media (max-width: 768px) {
+            .gif-bixinho {
+                width: 85px; /* Ajustado proporcionalmente */
+            }
+            .pokemon-circle-container {
+                left: 42%; /* Mais para a esquerda no tablet */
+            }
+        }
+
+        @media (max-width: 480px) {
+            .gif-bixinho {
+                width: 75px; /* Ajustado proporcionalmente */
+            }
+            .pokemon-circle-container {
+                left: 40%; /* Mais para a esquerda no celular */
+                max-width: 85vw;
+                max-height: 85vw;
+            }
         }
 
         .gif-bixinho:hover {
@@ -172,23 +192,21 @@
 
         @keyframes pulseBixinho {
             0% { transform: scale(1) translateY(0); }
-            50% { transform: scale(1.2) translateY(-10px); }
+            50% { transform: scale(1.1) translateY(-5px); }
             100% { transform: scale(1) translateY(0); }
         }
 
-        /* Posições exatas baseadas nas marcas verdes do desenho (12 Pokémon) */
+        /* Posições Matemáticas Precisas para 9 Pokémon (360 / 9 = 40 graus cada) */
+        /* Usando calc para facilitar ajuste de raio se necessário */
         .gif-1 { top: 0%; left: 50%; transform: translate(-50%, -50%); animation-delay: 0s; }
-        .gif-2 { top: 7%; left: 75%; transform: translate(-50%, -50%); animation-delay: 0.2s; }
-        .gif-3 { top: 25%; left: 93%; transform: translate(-50%, -50%); animation-delay: 0.4s; }
-        .gif-4 { top: 50%; left: 100%; transform: translate(-50%, -50%); animation-delay: 0.6s; }
-        .gif-5 { top: 75%; left: 93%; transform: translate(-50%, -50%); animation-delay: 0.8s; }
-        .gif-6 { top: 93%; left: 75%; transform: translate(-50%, -50%); animation-delay: 1s; }
-        .gif-7 { top: 100%; left: 50%; transform: translate(-50%, -50%); animation-delay: 1.2s; }
-        .gif-8 { top: 93%; left: 25%; transform: translate(-50%, -50%); animation-delay: 1.4s; }
-        .gif-9 { top: 75%; left: 7%; transform: translate(-50%, -50%); animation-delay: 1.6s; }
-        .gif-10 { top: 50%; left: 0%; transform: translate(-50%, -50%); animation-delay: 1.8s; }
-        .gif-11 { top: 25%; left: 7%; transform: translate(-50%, -50%); animation-delay: 2s; }
-        .gif-12 { top: 7%; left: 25%; transform: translate(-50%, -50%); animation-delay: 2.2s; }
+        .gif-2 { top: 11.7%; left: 82.1%; transform: translate(-50%, -50%); animation-delay: 0.2s; }
+        .gif-3 { top: 41.3%; left: 98.5%; transform: translate(-50%, -50%); animation-delay: 0.4s; }
+        .gif-4 { top: 71.7%; left: 88.3%; transform: translate(-50%, -50%); animation-delay: 0.6s; }
+        .gif-5 { top: 93.3%; left: 62.8%; transform: translate(-50%, -50%); animation-delay: 0.8s; }
+        .gif-6 { top: 93.3%; left: 37.2%; transform: translate(-50%, -50%); animation-delay: 1s; }
+        .gif-7 { top: 71.7%; left: 11.7%; transform: translate(-50%, -50%); animation-delay: 1.2s; }
+        .gif-8 { top: 41.3%; left: 1.5%; transform: translate(-50%, -50%); animation-delay: 1.4s; }
+        .gif-9 { top: 11.7%; left: 17.9%; transform: translate(-50%, -50%); animation-delay: 1.6s; }
 
         /* Efeito de brilho ao clicar */
         @keyframes sparkle {
@@ -419,9 +437,6 @@
             <img src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExeGtnZGJ4ZWJndGl5NjNjZ3Zna2hrM3Y3YTJ1dDg3ZW8yZjJ0ZjV4ZCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/oZJAWIXCalBqAYjWdu/giphy.gif" class="gif-bixinho gif-7" onclick="createSparkles(event)">
             <img src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExNzVxcm8zNTc4N210ODF0OXlqMGo1MDZjeXphdDh2c3JpMzFwNnlraCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/ciK3sL9rLb5vkkarhF/giphy.gif" class="gif-bixinho gif-8" onclick="createSparkles(event)">
             <img src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExcXVwdmx2bWgxM2ZxdGs5d2RuZ21pMWl5aWE5dDh5Z2U5eWZ3ODZociZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/tM5r46GXQXo4auQlmg/giphy.gif" class="gif-bixinho gif-9" onclick="createSparkles(event)">
-            <img src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExczVzajhyaHJ3ZDYzZ3NrY2EzcHJ4MXhjcHppeTUyZGl6NHJiMms1NSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/oAUlEvrr89NIFDVhbs/giphy.gif" class="gif-bixinho gif-10" onclick="createSparkles(event)">
-            <img src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExcmxzbTNnMmdhdzBrZHpxNWw4ZGVtZWF6bmc3YWlqcjFkMndidTVqZyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/bldpz2Lbn2vu3hZoZh/giphy.gif" class="gif-bixinho gif-11" onclick="createSparkles(event)">
-            <img src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExdnd6YjB3d2Z0NWx4MHBjdWtqMm5uYXZ1ajZxZjd4MXpxdG03eG81eSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/30s65rR6LDHmk73aUB/giphy.gif" class="gif-bixinho gif-12" onclick="createSparkles(event)">
         </div>
 
         <div class="portal-container">

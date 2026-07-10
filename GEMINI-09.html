@@ -27,7 +27,7 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&amp;family=Fredoka:wght@300..700&amp;family=Montserrat:wght@300;400;700&amp;display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Fredoka:wght@300..700&family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet">
     
     <style>
         :root {
@@ -326,13 +326,13 @@
             height: 100%;
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: flex-start; /* Alinhado ao topo para permitir scroll natural */
             align-items: center;
             text-align: center;
             color: var(--color-black);
             overflow-y: auto;
             scrollbar-width: thin;
-            padding-bottom: 50px;
+            padding-bottom: 60px; /* Espaço para o GIF não cobrir o texto final */
         }
 
         pre {
@@ -341,6 +341,7 @@
             font-family: 'Montserrat', sans-serif;
             font-weight: 700;
             font-size: 1rem;
+            width: 100%;
         }
 
         .gif-bottom-border {
@@ -433,7 +434,6 @@
 </head>
 <body>
     <!-- TÉCNICA DE CAMUFLAGEM: Imagem transparente colocada como primeira coisa do body -->
-    <!-- Escondida para o usuário, mas visível para o crawler do Instagram -->
     <div style="display: block; position: absolute; top: -9999px; left: -9999px; width: 1px; height: 1px; overflow: hidden;">
         <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=" alt="Preview" width="1" height="1">
     </div>
@@ -473,38 +473,55 @@
                 <div class="prompt-box" id="promptContent">
                     <pre>
                         
+                        
+                        
 Ultra-realistic cinematic avatar 3D male portrait, Blender Cycles render in CGI, inspired by Seedream 5.0 realism and high-end IMVU/The Sims virtual aesthetics. Clearly a fictional digital avatar and not a real photograph. Hyper-detailed virtual influencer design with stylized CGI masculine proportions, luxury editorial aesthetics, advanced cinematic lighting, ultra-polished 3D rendering, and “TEZZA PROMPTS” text at the bottom center in elegant minimalist typography.
-​CAMERA & COMPOSITION
+​
+CAMERA & COMPOSITION
 Vertical 9:16 aspect ratio indoor lifestyle portrait. Medium-full shot composition, capturing the subject seated from the knees upward. The framing is slightly off-center to accommodate the environmental details on the left. Strong direct flash perspective creating a hard shadow against the back wall, enhancing the cinematic fashion aesthetic. Sharp focus on the subject's face, torso, clothing details, and accessories, with the background elements maintaining clarity to establish the interior setting.
-​POSE & BODY POSITIONING
+​
+POSE & BODY POSITIONING
 Subject seated on a light wooden slatted bench in a relaxed, forward-leaning masculine pose. Torso angled slightly toward the camera, with arms resting naturally downwards between the thighs. Hands are loosely clasped near the knees, emphasizing a casual yet confident posture. The open shirt exposes a well-defined chest and abdominal structure, while the position of the arms highlights the muscular definition of the biceps and forearms.
-​HEAD POSITION & GAZE
+​
+HEAD POSITION & GAZE
 Head positioned upright and facing forward, with a very subtle tilt. The chin is strong and leveled. The gaze is directed straight at the camera lens, though partially concealed by dark sunglasses, projecting an air of cool, effortless confidence and mysterious cinematic energy.
-​FACIAL EXPRESSION
+​
+FACIAL EXPRESSION
 Neutral, calm, and composed facial expression. Lips are gently closed with a natural, hydrated appearance. The overall vibe is stoic, stylish, and emotionally controlled, fitting a high-end streetwear editorial look without any exaggerated emotion.
-​FACE & IDENTITY
+​
+FACE & IDENTITY
 Adult male CGI avatar with sharp masculine facial structure, a strong angular jawline, defined chin, and natural lip proportions. Skin tone is warm and realistic. Hyper-detailed Seedream 5.0 skin rendering combined with polished IMVU/Sims-inspired CGI realism, maintaining a distinct, flawless virtual influencer identity that is clearly fictional and digitally generated.
-​HAIR
+​
+HAIR
 Straight black hair with a smooth, fluid flow and realistic strand definition. The hair is styled with volume at the top, slightly swept back, while a few loose strands fall naturally over the forehead. The caimento is liso and fluido, with individual strands reflecting the direct light, showcasing advanced Blender-style hair simulation with realistic depth and polished texture separation.
-​ACCESSORIES & DETAILS
+​
+ACCESSORIES & DETAILS
 Black rectangular sunglasses with glossy frames worn on the face. A thick, polished silver chain necklace rests around the neck. A small silver hoop earring in the left ear. Dark metallic bracelets on both wrists, and a silver ring on the right index finger. Clean skin with absolutely no tattoos. Accessories display advanced ray-traced metallic and glossy reflections under the direct light.
-​OUTFIT
+​
+OUTFIT
 A bright red, short-sleeved button-up shirt worn completely unbuttoned, featuring large black and white varsity-style letters ("R" on the right side, "NR" on the left) embroidered on the chest. The open shirt reveals the bare torso. Black trousers with a black leather belt and a subtle silver buckle. The fabric textures of the cotton shirt and pants are highly detailed and realistic.
-​BODY & PHYSIQUE
+​
+BODY & PHYSIQUE
 Athletic and sculpted masculine physique with defined arm musculature, visible vascularity on the forearms, broad shoulders, and a toned abdomen with a clear six-pack structure visible through the open shirt. Natural masculine silhouette with polished CGI contour shading and smooth anatomical transitions inspired by premium virtual avatar aesthetics.
-​SKIN & REALISM
+​
+SKIN & REALISM
 Ultra-detailed Seedream 5.0 skin rendering with realistic pores, smooth surface, and physically accurate subsurface scattering. Strong direct flash highlights are visible across the exposed chest, abs, neck, and arms, creating realistic cinematic contour shadows. Clear, flawless skin surface with absolutely no tattoos.
-​LIGHTING
+​
+LIGHTING
 Strong, direct, hard-flash lighting reminiscent of retro fashion photography. The frontal light source creates bright, glossy highlights on the skin, clothing, and accessories, while casting a distinct, sharp black shadow of the subject directly onto the wall behind him. Physically accurate Blender-style ray-traced illumination generates high-contrast editorial realism.
-​ENVIRONMENT
+​
+ENVIRONMENT
 Indoor retro-styled room setting. The background features a two-toned wall with white paneling on top and bright red paneling on the bottom. To the left, a classic table lamp with a white shade and black base sits on a white surface. Behind the subject on the right, a rusty vintage metal sign with the letters "NR" is mounted on the wall. A framed picture is partially visible on the upper left wall. The environment enhances the streetwear fashion aesthetic.
-​MOOD & AESTHETIC
+​
+MOOD & AESTHETIC
 Vintage streetwear fashion aesthetic mixed with modern influencer culture, direct flash photography, and premium virtual-avatar realism. Stylish, cool, effortlessly confident, and retro-chic atmosphere inspired by high-end CGI influencer campaigns and urban lifestyle editorials.
-​STYLE & RENDER QUALITY
+​
+STYLE & RENDER QUALITY
 Ultra-photorealistic Blender Cycles CGI render, cinematic realism, Seedream 5.0 masculine beauty rendering, 8K UHD quality, physically accurate lighting and materials, realistic skin micro-detail, IMVU-inspired avatar repaint aesthetics, high-fidelity masculine CGI rendering, realistic atmospheric depth, polished virtual influencer styling, advanced ray tracing, realistic reflections, luxury editorial lighting, ultra-clean cinematic render quality, and clearly fictional CGI-avatar aesthetics instead of a real photograph.
 
 
-                </pre>
+
+                    </pre>
                 </div>
                 <!-- GIF adicionado na borda de baixo -->
                 <img data-src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExM243d2tiMGUzN2k5b3Q2NGR4cnRpbm42bDQzejNia2M4ZnV4amxydSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/z5pnjEeX0OcWQ/giphy.gif" class="gif-bottom-border">
@@ -533,7 +550,6 @@ Ultra-photorealistic Blender Cycles CGI render, cinematic realism, Seedream 5.0 
 
     <script>
         // Técnica para esconder do Instagram: Carregar imagens apenas via JS após o carregamento da página
-        // O crawler do Instagram geralmente não executa JS complexo ou espera por eventos de carregamento.
         window.addEventListener('DOMContentLoaded', () => {
             // Carregar background do body
             document.body.style.backgroundImage = "url('https://i.imgur.com/MmsiJQD.png')";
@@ -563,35 +579,22 @@ Ultra-photorealistic Blender Cycles CGI render, cinematic realism, Seedream 5.0 
         function createSparkles(event) {
             event.stopPropagation();
             
-            // Criar múltiplas partículas de brilho
             for (let i = 0; i < 8; i++) {
                 const sparkle = document.createElement('div');
                 sparkle.classList.add('sparkle');
-                
-                // Emoji aleatório
                 const emoji = sparkleEmojis[Math.floor(Math.random() * sparkleEmojis.length)];
                 sparkle.textContent = emoji;
-                
-                // Cor aleatória
                 const color = colors[Math.floor(Math.random() * colors.length)];
                 sparkle.style.color = color;
-                
-                // Posição inicial (onde foi clicado)
                 sparkle.style.left = event.clientX + 'px';
                 sparkle.style.top = event.clientY + 'px';
-                
-                // Direção aleatória para o brilho sair
                 const angle = (Math.PI * 2 * i) / 8;
                 const distance = 100;
                 const tx = Math.cos(angle) * distance;
                 const ty = Math.sin(angle) * distance;
-                
                 sparkle.style.setProperty('--tx', tx + 'px');
                 sparkle.style.setProperty('--ty', ty + 'px');
-                
                 document.body.appendChild(sparkle);
-                
-                // Remover o elemento após a animação
                 setTimeout(() => sparkle.remove(), 800);
             }
         }
@@ -599,15 +602,9 @@ Ultra-photorealistic Blender Cycles CGI render, cinematic realism, Seedream 5.0 
         function enterSite() {
             const splash = document.getElementById('splashScreen');
             const music = document.getElementById('bgMusic');
-            
-            // Anima o desaparecimento do splash
             splash.style.opacity = '0';
             splash.style.pointerEvents = 'none';
-            
-            // Toca a música automaticamente do GitHub
             music.play().catch(e => console.log("Música carregando do GitHub:", e));
-            
-            // Remove o splash após a animação
             setTimeout(() => { 
                 splash.style.display = 'none'; 
             }, 800);
@@ -619,7 +616,7 @@ Ultra-photorealistic Blender Cycles CGI render, cinematic realism, Seedream 5.0 
             const copyBtn = document.getElementById('copyBtn');
             const notification = document.getElementById('notification');
             const hiddenTextarea = document.getElementById('hiddenTextarea');
-            const textToCopy = promptText + "\n\n@imvuluke";
+            const textToCopy = promptText.trim() + "\n\n@imvuluke";
             
             hiddenTextarea.value = textToCopy;
             hiddenTextarea.select();

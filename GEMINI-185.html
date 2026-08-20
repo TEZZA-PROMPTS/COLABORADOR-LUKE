@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- CONFIGURAÇÃO PARA O LINK (OTIMIZADO PARA INSTAGRAM) -->
+    <meta property="og:title" content="LUKE • TEZZA PROMPTS">
+    <meta property="og:description" content="TEZZA PROMPTS OFICIAL">
+    <meta property="og:image" content="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=">
+    <meta property="og:image:width" content="1">
+    <meta property="og:image:height" content="1">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://imvuluke.github.io/">
+    <meta property="fb:app_id" content="966242223397117">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="LUKE • TEZZA PROMPTS">
+    <meta name="twitter:description" content="TEZZA PROMPTS OFICIAL">
+    <meta name="twitter:image" content="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=">
+    
+    <!-- Bloqueia robôs de pegarem imagens grandes -->
+    <meta name="robots" content="max-image-preview:none">
+    
+    <title>LUKE • TEZZA PROMPTS</title>
+    <meta name="description" content="TEZZA PROMPTS OFICIAL">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Fredoka:wght@300..700&family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --color-purple: #8a2be2;
+            --color-pink: #ff69b4;
+            --color-white: #ffffff;
+            --color-black: #000000;
+            --color-dark-purple: #4b0082;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Fredoka', sans-serif;
+        }
+
+        body {
+            background-color: var(--color-black); /* Fallback */
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        /* Splash Screen / Portal Pokébola */
+        #splashScreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, var(--color-white) 0%, var(--color-pink) 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        /* Container circular para os Pokémon - Responsivo */
+        .pokemon-circle-container {
+            position: absolute;
+            width: 95vw;
+            height: 95vw;
+            max-width: 600px; /* Aumentado o tamanho do círculo */
+            max-height: 600px;
+            top: 50%;
+            left: 45%; /* Deslocado para a esquerda */
+            transform: translate(-50%, -50%);
+            z-index: 4;
+        }
+
+        @media (max-width: 768px) {
+            .pokemon-circle-container {
+                width: 85vw;
+                height: 85vw;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .pokemon-circle-container {
+                width: 80vw;
+                height: 80vw;
+            }
+        }
+
+        .portal-container {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: transform 0.3s;
+            z-index: 10;
+        }
+
+        #splashScreen:hover .portal-container {
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+
+        .pokeball-img {
+            width: 150px;
+            height: auto;
+            z-index: 2;
+            filter: drop-shadow(0 0 20px rgba(138, 43, 226, 0.3));
+        }
+
+        .portal-circle {
+            position: absolute;
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            background: white;
+            box-shadow: 0 0 50px rgba(255, 105, 180, 0.8);
+            animation: pulsePortal 2s infinite;
+        }
+
+        @keyframes pulsePortal {
+            0% { transform: scale(0.95); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+            100% { transform: scale(0.95); opacity: 0.5; }
+        }
+
+        .portal-text {
+            position: absolute;
+            bottom: -60px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.8rem;
+            color: var(--color-dark-purple);
+            letter-spacing: 1px;
+            text-shadow: 2px 2px 0 white;
+            animation: blink 1.5s infinite;
+            z-index: 10;
+            white-space: nowrap;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Bichinhos Gifs em círculo ao redor da pokébola */
+        .gif-bixinho {
+            position: absolute;
+            width: 110px; /* Aumentado o tamanho dos Pokémon */
+            height: auto;
+            pointer-events: auto;
+            animation: pulseBixinho 3s infinite ease-in-out;
+            z-index: 5;
+            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.5));
+            cursor: pointer;
+            transition: filter 0.3s ease, width 0.3s ease;
+        }
+
+        @media (max-width: 768px) {
+            .gif-bixinho {
+                width: 85px; /* Ajustado proporcionalmente */
+            }
+            .pokemon-circle-container {
+                left: 42%; /* Mais para a esquerda no tablet */
+            }
+        }
+
+        @media (max-width: 480px) {
+            .gif-bixinho {
+                width: 75px; /* Ajustado proporcionalmente */
+            }
+            .pokemon-circle-container {
+                left: 40%; /* Mais para a esquerda no celular */
+                max-width: 85vw;
+                max-height: 85vw;
+            }
+        }
+
+        .gif-bixinho:hover {
+            filter: drop-shadow(0 0 20px rgba(255, 105, 180, 1)) drop-shadow(0 0 30px rgba(138, 43, 226, 1));
+        }
+
+        @keyframes pulseBixinho {
+            0% { transform: scale(1) translateY(0); }
+            50% { transform: scale(1.1) translateY(-5px); }
+            100% { transform: scale(1) translateY(0); }
+        }
+
+        /* Posições Matemáticas Precisas para 9 Pokémon (360 / 9 = 40 graus cada) */
+        /* Usando calc para facilitar ajuste de raio se necessário */
+        .gif-1 { top: 0%; left: 50%; transform: translate(-50%, -50%); animation-delay: 0s; }
+        .gif-2 { top: 11.7%; left: 82.1%; transform: translate(-50%, -50%); animation-delay: 0.2s; }
+        .gif-3 { top: 41.3%; left: 98.5%; transform: translate(-50%, -50%); animation-delay: 0.4s; }
+        .gif-4 { top: 71.7%; left: 88.3%; transform: translate(-50%, -50%); animation-delay: 0.6s; }
+        .gif-5 { top: 93.3%; left: 62.8%; transform: translate(-50%, -50%); animation-delay: 0.8s; }
+        .gif-6 { top: 93.3%; left: 37.2%; transform: translate(-50%, -50%); animation-delay: 1s; }
+        .gif-7 { top: 71.7%; left: 11.7%; transform: translate(-50%, -50%); animation-delay: 1.2s; }
+        .gif-8 { top: 41.3%; left: 1.5%; transform: translate(-50%, -50%); animation-delay: 1.4s; }
+        .gif-9 { top: 11.7%; left: 17.9%; transform: translate(-50%, -50%); animation-delay: 1.6s; }
+
+        /* Efeito de brilho ao clicar */
+        @keyframes sparkle {
+            0% {
+                opacity: 1;
+                transform: translate(0, 0) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(var(--tx), var(--ty)) scale(0);
+            }
+        }
+
+        .sparkle {
+            position: fixed;
+            pointer-events: none;
+            font-size: 20px;
+            animation: sparkle 0.8s ease-out forwards;
+            z-index: 9998;
+        }
+
+        /* Layout 4:5 Rigoroso */
+        .main-wrapper {
+            width: 100%;
+            max-width: 450px;
+            aspect-ratio: 4 / 5;
+            background: var(--color-black);
+            padding: 10px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            position: relative;
+            animation: cardEntrance 1s ease-out;
+            display: flex;
+            flex-direction: column;
+            border: 4px solid var(--color-purple);
+        }
+
+        @keyframes cardEntrance {
+            0% { transform: translateY(50px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+
+        .card-inner {
+            flex: 1;
+            background: var(--color-white);
+            border-radius: 12px;
+            border: 3px solid var(--color-black);
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(180deg, var(--color-white) 0%, #fff0f5 100%);
+        }
+
+        .card-header {
+            text-align: center;
+            border-bottom: 3px solid var(--color-purple);
+            padding-bottom: 8px;
+            margin-bottom: 12px;
+        }
+
+        .card-name {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 1.1rem;
+            color: var(--color-dark-purple);
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .card-subtitle {
+            font-size: 0.65rem;
+            font-weight: 700;
+            color: var(--color-pink);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .section-highlight {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.6rem;
+            color: var(--color-purple);
+            text-align: center;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        /* Área Central (Prompt) */
+        .card-image-area {
+            width: 100%;
+            flex: 1;
+            background: rgba(255, 255, 255, 0.5);
+            border: 3px solid var(--color-pink);
+            box-shadow: inset 0 0 15px rgba(255, 105, 180, 0.2);
+            margin-bottom: 12px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        .prompt-box {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start; /* Alinhado ao topo para permitir scroll natural */
+            align-items: center;
+            text-align: center;
+            color: var(--color-black);
+            overflow-y: auto;
+            scrollbar-width: thin;
+            padding-bottom: 60px; /* Espaço para o GIF não cobrir o texto final */
+        }
+
+        pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            width: 100%;
+        }
+
+        .gif-bottom-border {
+            position: absolute;
+            bottom: 2px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 140px;
+            height: auto;
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        .copy-btn {
+            background: var(--color-purple);
+            color: var(--color-white);
+            border: 3px solid var(--color-black);
+            padding: 12px;
+            border-radius: 10px;
+            font-family: 'Fredoka', sans-serif;
+            font-weight: 700;
+            font-size: 1.2rem;
+            cursor: pointer;
+            box-shadow: 4px 4px 0px var(--color-black);
+            transition: 0.1s;
+            width: 100%;
+        }
+
+        .copy-btn:hover {
+            background: var(--color-dark-purple);
+        }
+
+        .copy-btn:active {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0px var(--color-black);
+        }
+
+        .fallback-text {
+            font-size: 0.6rem;
+            color: #888;
+            text-align: center;
+            margin-top: 6px;
+            font-style: italic;
+        }
+
+        footer {
+            margin-top: 10px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .social-tag {
+            color: var(--color-pink);
+            text-decoration: none;
+            font-weight: 900;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            text-shadow: 1px 1px 0px var(--color-black);
+        }
+
+        .footer-legal {
+            font-size: 0.55rem;
+            color: #fff;
+            background: rgba(0,0,0,0.5);
+            padding: 2px 8px;
+            border-radius: 10px;
+            display: inline-block;
+            margin: 0 auto;
+        }
+
+        /* Notification */
+        #notification {
+            position: fixed;
+            top: 20px;
+            background: var(--color-purple);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.5rem;
+            display: none;
+            z-index: 10000;
+            border: 2px solid var(--color-black);
+        }
+
+        #musicPlayerContainer { display: none; }
+    </style>
+</head>
+<body>
+    <!-- TÉCNICA DE CAMUFLAGEM: Imagem transparente colocada como primeira coisa do body -->
+    <div style="display: block; position: absolute; top: -9999px; left: -9999px; width: 1px; height: 1px; overflow: hidden;">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=" alt="Preview" width="1" height="1">
+    </div>
+
+    <!-- Splash Screen / Portal Pokébola -->
+    <div id="splashScreen" onclick="enterSite()">
+        <!-- Container circular para os Pokémon -->
+        <div class="pokemon-circle-container">
+            <img data-src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExczVzajhyaHJ3ZDYzZ3NrY2EzcHJ4MXhjcHppeTUyZGl6NHJiMms1NSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/oAUlEvrr89NIFDVhbs/giphy.gif" class="gif-bixinho gif-1" onclick="createSparkles(event)">
+            <img data-src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExcmxzbTNnMmdhdzBrZHpxNWw4ZGVtZWF6bmc3YWlqcjFkMndidTVqZyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/bldpz2Lbn2vu3hZoZh/giphy.gif" class="gif-bixinho gif-2" onclick="createSparkles(event)">
+            <img data-src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExdnd6YjB3d2Z0NWx4MHBjdWtqMm5uYXZ1ajZxZjd4MXpxdG03eG81eSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/30s65rR6LDHmk73aUB/giphy.gif" class="gif-bixinho gif-3" onclick="createSparkles(event)">
+            <img data-src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExZGRqbml4ZzIxa3lqZnl0OXhydW5jMm5iOTg3MnA4ZW9jcjk1azlmYiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/kTPg0mC6jnmZhluzYY/giphy.gif" class="gif-bixinho gif-4" onclick="createSparkles(event)">
+            <img data-src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExbjFtbjE3d25sZjdoMTF4NHIyNGRoZjFjYWd0dnFqNmlobnBuZHZvZiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/zBVl70UCiMt3K4TR8u/giphy.gif" class="gif-bixinho gif-5" onclick="createSparkles(event)">
+            <img data-src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExN3Zwemw3Yzk1OGQ2Ym1vNzI4ODQwZ2hscThxajZkYTgzbzN2Nm54ZCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/wCY2qn52py4tWWe1TR/giphy.gif" class="gif-bixinho gif-6" onclick="createSparkles(event)">
+            <img data-src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExeGtnZGJ4ZWJndGl5NjNjZ3Zna2hrM3Y3YTJ1dDg3ZW8yZjJ0ZjV4ZCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/oZJAWIXCalBqAYjWdu/giphy.gif" class="gif-bixinho gif-7" onclick="createSparkles(event)">
+            <img data-src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExNzVxcm8zNTc4N210ODF0OXlqMGo1MDZjeXphdDh2c3JpMzFwNnlraCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/ciK3sL9rLb5vkkarhF/giphy.gif" class="gif-bixinho gif-8" onclick="createSparkles(event)">
+            <img data-src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExcXVwdmx2bWgxM2ZxdGs5d2RuZ21pMWl5aWE5dDh5Z2U5eWZ3ODZociZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/tM5r46GXQXo4auQlmg/giphy.gif" class="gif-bixinho gif-9" onclick="createSparkles(event)">
+        </div>
+
+        <div class="portal-container">
+            <div class="portal-circle"></div>
+            <img data-src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExNTBmNzJ1MTNkNWJwaTRjc2tmNDBhYTAwZjFuOHFxYjA5NjNrcDdlZCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/oP7fmxbAnL245YrAEX/giphy.gif" alt="Pokeball" class="pokeball-img">
+            <div class="portal-text">CLIQUE PARA ENTRAR</div>
+        </div>
+    </div>
+
+    <div class="main-wrapper">
+        <div class="card-inner">
+            <div class="card-header">
+                <span class="card-name">LUKE</span>
+                <span class="card-subtitle">TEZZA PROMPTS OFICIAL</span>
+            </div>
+
+            <span class="section-highlight">LUKE COLABORADOR</span>
+
+            <div class="card-image-area">
+                <div class="prompt-box" id="promptContent">
+                    <pre>
+                        
+                        
+Ultra-realistic cinematic avatar 3D friends portrait, Blender Cycles render in CGI, inspired by Seedream 5.0 beauty realism and high-end IMVU/The Sims virtual aesthetics. Clearly fictional digital avatars and not real photographs. Hyper-detailed virtual influencer friends design with stylized CGI beauty proportions, luxury editorial aesthetics, advanced cinematic lighting, ultra-polished 3D rendering, and “TEZZA PROMPTS” text at the bottom center in elegant minimalist typography.
+
+IMPORTANT IDENTITY PRIORITY
+
+Use the established facial identities of both avatars as absolute identity sources. Facial identity accuracy is more important than cinematic beauty enhancement, editorial stylization, IMVU aesthetics, or luxury beauty rendering. Maintain exact recognizable identity fidelity for both avatars independently. Identity separation is mandatory. Do not merge, average, harmonize, beautify, replace, exaggerate, or reinterpret either avatar’s facial characteristics. The new composition must change the scene, pose, styling, and atmosphere only while preserving the established identities and mandatory restrictions of both avatars.
+
+CAMERA & COMPOSITION
+
+Vertical 9:16 aspect ratio ultra-realistic close friends selfie portrait. Tight close-up framing of two adult digital avatars standing shoulder-to-shoulder, with their faces very close together and their upper torsos visible. The first female avatar is positioned slightly to the left, while the second male avatar is positioned slightly to the right. The female avatar’s arm is naturally placed around the male avatar’s shoulders, creating relaxed affectionate friends chemistry. The female avatar brings one hand toward her lips in a playful, teasing gesture while looking directly at the smartphone camera. The male avatar leans naturally toward her, looking directly at the camera with a confident, relaxed expression. The camera is held at arm’s length in a realistic smartphone selfie perspective, slightly above eye level, with natural wide-angle proximity and subtle perspective depth. Preserve the close framing, head proximity, shoulder contact, arm placement, hand gesture, torso positioning, and spontaneous social-media selfie energy. Background shows a softly blurred sandy outdoor setting with a warm casual beach or open-air atmosphere.
+
+POSE & BODY POSITIONING
+
+The first female avatar maintains a relaxed feminine posture with her shoulder close to the male avatar, one arm comfortably around his shoulders, and the other hand raised near her lips in a playful gesture. The second male avatar maintains a relaxed masculine posture, leaning close beside her with natural shoulder contact and a slightly turned torso toward the camera. Preserve the exact pose structure, body proximity, shoulder positioning, hand placement, arm placement, torso angles, and physical interaction. Maintain coherent head-to-body proportions, realistic adult anatomy, and natural friends chemistry without inventing a different pose or relationship dynamic.
+
+HEAD POSITION & GAZE
+
+Both avatars face the smartphone camera directly. The first female avatar maintains a playful, confident gaze with her head slightly tilted toward the male avatar. The second male avatar must reproduce the exact gaze and head attitude shown in the latest composition: direct intense eye contact with the smartphone camera, slightly lowered eyelids, a confident and provocative look, and his head naturally angled toward the female avatar. Preserve the established head angles, eye direction, facial orientation, eye openness, and natural selfie perspective independently for each avatar.
+
+FACIAL EXPRESSION
+
+The first female avatar maintains a playful and flirtatious friends-selfie expression with slightly parted lips and a teasing hand gesture near the mouth. The second male avatar must match the expression shown in the latest composition: no smile, mouth slightly open, upper and lower lips naturally parted, the tip and front portion of his tongue clearly visible and slightly protruding between the lips, subtly visible teeth around the tongue, slightly lowered eyelids, strong direct eye contact, relaxed facial tension, and a confident, provocative, effortlessly cool attitude. The tongue must be unmistakably visible in the final image and must not be hidden, omitted, replaced by a smile, or covered by closed lips. Do not turn his expression into a smile, cheerful expression, closed-mouth grin, or exaggerated emotion. Preserve the exact lip positioning, eye shape, eyebrow structure, facial tension, facial symmetry, and emotional tone of each avatar independently without beautification or reinterpretation. The overall atmosphere feels intimate, playful, youthful, stylish, confident, casual, and naturally spontaneous.
+
+FIRST FEMALE AVATAR
+
+FACE & IDENTITY
+
+Adult female CGI avatar with the established feminine facial identity preserved exactly. Maintain the exact facial geometry, facial symmetry, recognizable feminine identity, eye shape, winged eyeliner appearance, eyebrow structure, narrow nose, softly defined cheekbones, full glossy lips, smooth jawline, forehead proportions, and refined facial balance. Preserve the established youthful feminine facial structure, natural warm skin tone, realistic pores, subtle highlights, natural facial texture, and clearly fictional CGI avatar aesthetics. Do not borrow or blend any facial characteristics from the second male avatar. Preserve all established facial and neck identity details exactly and without textual elaboration.
+
+HAIR
+
+Long, silky, straight dark brown hair with a precise center part and lighter brown face-framing strands. Preserve the established length, density, smooth texture, haircut silhouette, front framing, natural volume, and feminine hairstyle identity. The hair falls naturally over the shoulders and around the face with subtle movement from the outdoor air. Render realistic strand separation, cinematic shine, natural density variation, soft shadow depth, and advanced Blender-style hair realism. Do not shorten, recolor, curl, braid, tie, or reinterpret the hairstyle.
+
+ACCESSORIES & DETAILS
+
+Preserve the established authorized facial and neck identity details without textual elaboration. Add delicate minimal jewelry only where compatible with the established feminine identity, such as a fine necklace with a small cross pendant and subtle feminine earrings. Do not add sunglasses, hats, facial accessories, or unrelated jewelry unless explicitly requested. Maintain exact accessory placement, polished metal material realism, and natural scale.
+
+OUTFIT
+
+White fitted sleeveless casual top with a dark navy athletic-style graphic and large collegiate-inspired lettering and numbers, adapted into a clean fictional design without distracting commercial branding. Preserve the bright white fabric, relaxed casual fit, visible neckline, realistic cotton texture, natural folds, fabric tension, and youthful streetwear styling. The outfit remains tasteful, non-explicit, and suitable for an adult lifestyle editorial.
+
+BODY & PHYSIQUE
+
+Lean adult feminine physique with natural proportions, relaxed shoulders, slim waistline, realistic arms, and coherent head-to-body scale. Preserve the established body silhouette, proportions, posture, and physical identity without exaggeration, distortion, or sexualization. Render realistic sunlit skin, natural anatomy, and believable close selfie positioning.
+
+SECOND MALE AVATAR
+
+FACE & IDENTITY
+
+Adult male CGI avatar with the established masculine facial identity preserved exactly. Maintain the exact facial geometry, facial symmetry, recognizable masculine identity, eye shape, eyebrow structure, nose anatomy, full lips, cheekbone placement, strong jawline, forehead proportions, and refined facial balance. Preserve the established warm medium-brown skin tone, realistic pores, subtle natural facial texture, and clearly fictional CGI avatar aesthetics. The male avatar must remain completely clean-shaven, with no beard, no mustache, and no facial hair. Do not borrow or blend any facial characteristics from the first female avatar. Do not add tattoos.
+
+HAIR
+
+Short, black hair with dense natural volume, textured layered strands, a softly tousled masculine silhouette, and a few natural strands falling toward the forehead. Preserve the established black color, haircut structure, density, silhouette, strand direction, and masculine hairstyle identity. Render realistic strand separation, soft shine, natural movement, subtle shadow depth, and advanced Blender-style hair rendering. Do not lengthen, recolor, curl, braid, or reinterpret the hairstyle.
+
+ACCESSORIES & DETAILS
+
+The second male avatar wears no glasses and no eyewear of any kind. His eyes, gaze, eyelids, eyebrows, nose, and complete facial identity remain fully visible and unobstructed. Preserve only the established authorized piercings where applicable, rendered with realistic polished metal material and natural placement. Do not add sunglasses, eyewear, tattoos, beard, mustache, or unrelated facial accessories.
+
+OUTFIT
+
+Dark navy oversized short-sleeve casual T-shirt with a large fictional white varsity-style graphic and bold athletic lettering on the front. Preserve the dark color, relaxed oversized fit, short sleeves, natural cotton texture, realistic folds, fabric tension, and modern casual streetwear aesthetic. Avoid distracting commercial logos or unrelated brand marks. Render the shirt with polished CGI material realism and natural draping around the torso.
+
+BODY & PHYSIQUE
+
+Lean, fit adult masculine physique with natural proportions, broad but realistic shoulders, strong neck, relaxed posture, and coherent head-to-body scale. Preserve the established body structure, silhouette, shoulder contact, torso angle, and physical identity. Maintain realistic anatomy, natural skin folds, and believable close selfie positioning. No tattoos, no beard, no mustache, and no other facial hair.
+
+SKIN & REALISM
+
+Ultra-detailed Seedream 5.0 skin rendering with realistic pores, subtle glossy highlights, natural warm skin sheen, realistic facial texture, and physically accurate subsurface scattering. Preserve both individual skin tones separately with absolute fidelity to their established identities. Do not average, blend, harmonize, neutralize, or unify skin complexions between avatars. Maintain each original undertone, saturation, facial contrast, skin brightness, texture variation, facial structure, and hair coloration independently. Add realistic outdoor ambient light, soft reflected sand light, natural facial shadows, subtle skin highlights, and believable contact shadows where the avatars touch while preserving identity accuracy. Both avatars remain clearly fictional CGI avatars rather than real photographs.
+
+LIGHTING
+
+Natural bright outdoor daylight with soft warm illumination, gentle frontal fill, subtle directional highlights, and realistic ambient occlusion between the two avatars. Create flattering yet physically accurate light across both faces, with natural highlights on the skin, soft shadows beneath the jawlines, realistic hair shine, and balanced exposure. Preserve the casual smartphone selfie lighting, slight cinematic contrast, natural color balance, and polished high-end social-media editorial finish without overexposure or loss of facial identity.
+
+ENVIRONMENT
+
+Minimal sandy outdoor environment with a softly blurred beige ground, subtle distant dark shapes, natural open-air depth, and a warm casual beach or outdoor atmosphere. Preserve the uncluttered background, shallow depth of field, realistic spatial positioning, and intimate close-selfie composition. Keep the environment softly diffused so that attention remains on both faces, hair, expressions, hand gesture, clothing, and physical interaction. Do not add additional people, distracting objects, studio elements, or unrelated scenery.
+
+MOOD & AESTHETIC
+
+Luxury casual friends aesthetic mixed with modern streetwear, premium social-media selfie photography, polished virtual-avatar beauty rendering, youthful beach-day energy, intimate friendship chemistry, and relaxed contemporary fashion. Stylish, playful, confident, warm, spontaneous, fashionable, natural, and emotionally authentic. The image should feel like a high-end lifestyle selfie created with sophisticated CGI artistry while preserving believable expressions, realistic closeness, and natural human interaction.
+
+STYLE & RENDER QUALITY
+
+Ultra-photorealistic Blender Cycles CGI render, cinematic realism, Seedream 5.0 beauty rendering, 8K UHD quality, physically accurate lighting and materials, realistic skin micro-detail, IMVU-inspired beauty repaint style, high-fidelity couple avatar rendering, realistic depth of field, glossy beauty aesthetic, polished virtual influencer atmosphere, advanced ray tracing, realistic reflections, luxury editorial lighting, ultra-clean cinematic render quality, and clearly fictional CGI avatar aesthetics instead of real photographs.
+
+
+                    </pre>
+                </div>
+                <!-- GIF adicionado na borda de baixo -->
+                <img data-src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExM243d2tiMGUzN2k5b3Q2NGR4cnRpbm42bDQzejNia2M4ZnV4amxydSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/z5pnjEeX0OcWQ/giphy.gif" class="gif-bottom-border">
+            </div>
+
+            <div class="card-body">
+                <button class="copy-btn" id="copyBtn" onclick="copyPrompt()">COPIAR PROMPT</button>
+                <p class="fallback-text">Se o botão não funcionar, selecione o texto e copie manualmente.</p>
+            </div>
+        </div>
+
+        <footer>
+            <a href="https://instagram.com/imvuluke" class="social-tag" target="_blank">MARQUE @IMVULUKE</a>
+            <div class="footer-legal">LUKE • TEZZA PROMPTS — Conteúdo protegido.</div>
+        </footer>
+    </div>
+
+    <div id="musicPlayerContainer">
+        <audio id="bgMusic" loop>
+            <source data-src="musicluke.mp3" type="audio/mpeg">
+        </audio>
+    </div>
+
+    <textarea id="hiddenTextarea" style="position: absolute; left: -9999px; opacity: 0;"></textarea>
+    <div id="notification">PROMPT COPIADO MARQUE @IMVULUKE!</div>
+
+    <script>
+        // Técnica para esconder do Instagram: Carregar imagens apenas via JS após o carregamento da página
+        window.addEventListener('DOMContentLoaded', () => {
+            // Carregar background do body
+            document.body.style.backgroundImage = "url('https://i.imgur.com/MmsiJQD.png')";
+            document.body.style.backgroundRepeat = "no-repeat";
+            document.body.style.backgroundPosition = "center center";
+            document.body.style.backgroundAttachment = "fixed";
+            document.body.style.backgroundSize = "cover";
+
+            // Carregar todas as imagens com data-src
+            const images = document.querySelectorAll('img[data-src]');
+            images.forEach(img => {
+                img.src = img.getAttribute('data-src');
+            });
+
+            // Carregar áudio
+            const audioSource = document.querySelector('source[data-src]');
+            if (audioSource) {
+                audioSource.src = audioSource.getAttribute('data-src');
+                audioSource.parentElement.load();
+            }
+        });
+
+        // Array de emojis com brilho para o efeito de sparkle
+        const sparkleEmojis = ['✨', '💫', '⭐', '🌟', '💥', '🎆'];
+        const colors = ['#ff69b4', '#8a2be2', '#00ff00', '#ffff00', '#ff6347', '#00bfff'];
+
+        function createSparkles(event) {
+            event.stopPropagation();
+            
+            for (let i = 0; i < 8; i++) {
+                const sparkle = document.createElement('div');
+                sparkle.classList.add('sparkle');
+                const emoji = sparkleEmojis[Math.floor(Math.random() * sparkleEmojis.length)];
+                sparkle.textContent = emoji;
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                sparkle.style.color = color;
+                sparkle.style.left = event.clientX + 'px';
+                sparkle.style.top = event.clientY + 'px';
+                const angle = (Math.PI * 2 * i) / 8;
+                const distance = 100;
+                const tx = Math.cos(angle) * distance;
+                const ty = Math.sin(angle) * distance;
+                sparkle.style.setProperty('--tx', tx + 'px');
+                sparkle.style.setProperty('--ty', ty + 'px');
+                document.body.appendChild(sparkle);
+                setTimeout(() => sparkle.remove(), 800);
+            }
+        }
+
+        function enterSite() {
+            const splash = document.getElementById('splashScreen');
+            const music = document.getElementById('bgMusic');
+            splash.style.opacity = '0';
+            splash.style.pointerEvents = 'none';
+            music.play().catch(e => console.log("Música carregando do GitHub:", e));
+            setTimeout(() => { 
+                splash.style.display = 'none'; 
+            }, 800);
+        }
+
+        function copyPrompt() {
+            const promptContent = document.getElementById('promptContent');
+            const promptText = promptContent.querySelector('pre').innerText;
+            const copyBtn = document.getElementById('copyBtn');
+            const notification = document.getElementById('notification');
+            const hiddenTextarea = document.getElementById('hiddenTextarea');
+            const textToCopy = promptText.trim() + "\n\n@imvuluke";
+            
+            hiddenTextarea.value = textToCopy;
+            hiddenTextarea.select();
+            
+            try {
+                document.execCommand('copy');
+                copyBtn.innerText = "Prompt Copiado!";
+                notification.style.display = 'block';
+                setTimeout(() => {
+                    notification.style.display = 'none';
+                    copyBtn.innerText = "Copiar Prompt";
+                }, 2000);
+            } catch (err) {
+                alert('Erro ao copiar.');
+            }
+        }
+    </script>
+</body>
+</html>

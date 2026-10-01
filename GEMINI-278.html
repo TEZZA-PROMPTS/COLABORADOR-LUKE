@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- CONFIGURAÇÃO PARA O LINK (OTIMIZADO PARA INSTAGRAM) -->
+    <meta property="og:title" content="LUKE • TEZZA PROMPTS">
+    <meta property="og:description" content="TEZZA PROMPTS OFICIAL">
+    <meta property="og:image" content="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=">
+    <meta property="og:image:width" content="1">
+    <meta property="og:image:height" content="1">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://imvuluke.github.io/">
+    <meta property="fb:app_id" content="966242223397117">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="LUKE • TEZZA PROMPTS">
+    <meta name="twitter:description" content="TEZZA PROMPTS OFICIAL">
+    <meta name="twitter:image" content="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=">
+    
+    <!-- Bloqueia robôs de pegarem imagens grandes -->
+    <meta name="robots" content="max-image-preview:none">
+    
+    <title>LUKE • TEZZA PROMPTS</title>
+    <meta name="description" content="TEZZA PROMPTS OFICIAL">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Fredoka:wght@300..700&family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --color-purple: #8a2be2;
+            --color-pink: #ff69b4;
+            --color-white: #ffffff;
+            --color-black: #000000;
+            --color-dark-purple: #4b0082;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Fredoka', sans-serif;
+        }
+
+        body {
+            background-color: var(--color-black); /* Fallback */
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        /* Splash Screen / Portal Pokébola */
+        #splashScreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, var(--color-white) 0%, var(--color-pink) 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        /* Container circular para os Pokémon - Responsivo */
+        .pokemon-circle-container {
+            position: absolute;
+            width: 95vw;
+            height: 95vw;
+            max-width: 600px; /* Aumentado o tamanho do círculo */
+            max-height: 600px;
+            top: 50%;
+            left: 45%; /* Deslocado para a esquerda */
+            transform: translate(-50%, -50%);
+            z-index: 4;
+        }
+
+        @media (max-width: 768px) {
+            .pokemon-circle-container {
+                width: 85vw;
+                height: 85vw;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .pokemon-circle-container {
+                width: 80vw;
+                height: 80vw;
+            }
+        }
+
+        .portal-container {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: transform 0.3s;
+            z-index: 10;
+        }
+
+        #splashScreen:hover .portal-container {
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+
+        .pokeball-img {
+            width: 150px;
+            height: auto;
+            z-index: 2;
+            filter: drop-shadow(0 0 20px rgba(138, 43, 226, 0.3));
+        }
+
+        .portal-circle {
+            position: absolute;
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            background: white;
+            box-shadow: 0 0 50px rgba(255, 105, 180, 0.8);
+            animation: pulsePortal 2s infinite;
+        }
+
+        @keyframes pulsePortal {
+            0% { transform: scale(0.95); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+            100% { transform: scale(0.95); opacity: 0.5; }
+        }
+
+        .portal-text {
+            position: absolute;
+            bottom: -60px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.8rem;
+            color: var(--color-dark-purple);
+            letter-spacing: 1px;
+            text-shadow: 2px 2px 0 white;
+            animation: blink 1.5s infinite;
+            z-index: 10;
+            white-space: nowrap;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Bichinhos Gifs em círculo ao redor da pokébola */
+        .gif-bixinho {
+            position: absolute;
+            width: 110px; /* Aumentado o tamanho dos Pokémon */
+            height: auto;
+            pointer-events: auto;
+            animation: pulseBixinho 3s infinite ease-in-out;
+            z-index: 5;
+            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.5));
+            cursor: pointer;
+            transition: filter 0.3s ease, width 0.3s ease;
+        }
+
+        @media (max-width: 768px) {
+            .gif-bixinho {
+                width: 85px; /* Ajustado proporcionalmente */
+            }
+            .pokemon-circle-container {
+                left: 42%; /* Mais para a esquerda no tablet */
+            }
+        }
+
+        @media (max-width: 480px) {
+            .gif-bixinho {
+                width: 75px; /* Ajustado proporcionalmente */
+            }
+            .pokemon-circle-container {
+                left: 40%; /* Mais para a esquerda no celular */
+                max-width: 85vw;
+                max-height: 85vw;
+            }
+        }
+
+        .gif-bixinho:hover {
+            filter: drop-shadow(0 0 20px rgba(255, 105, 180, 1)) drop-shadow(0 0 30px rgba(138, 43, 226, 1));
+        }
+
+        @keyframes pulseBixinho {
+            0% { transform: scale(1) translateY(0); }
+            50% { transform: scale(1.1) translateY(-5px); }
+            100% { transform: scale(1) translateY(0); }
+        }
+
+        /* Posições Matemáticas Precisas para 9 Pokémon (360 / 9 = 40 graus cada) */
+        /* Usando calc para facilitar ajuste de raio se necessário */
+        .gif-1 { top: 0%; left: 50%; transform: translate(-50%, -50%); animation-delay: 0s; }
+        .gif-2 { top: 11.7%; left: 82.1%; transform: translate(-50%, -50%); animation-delay: 0.2s; }
+        .gif-3 { top: 41.3%; left: 98.5%; transform: translate(-50%, -50%); animation-delay: 0.4s; }
+        .gif-4 { top: 71.7%; left: 88.3%; transform: translate(-50%, -50%); animation-delay: 0.6s; }
+        .gif-5 { top: 93.3%; left: 62.8%; transform: translate(-50%, -50%); animation-delay: 0.8s; }
+        .gif-6 { top: 93.3%; left: 37.2%; transform: translate(-50%, -50%); animation-delay: 1s; }
+        .gif-7 { top: 71.7%; left: 11.7%; transform: translate(-50%, -50%); animation-delay: 1.2s; }
+        .gif-8 { top: 41.3%; left: 1.5%; transform: translate(-50%, -50%); animation-delay: 1.4s; }
+        .gif-9 { top: 11.7%; left: 17.9%; transform: translate(-50%, -50%); animation-delay: 1.6s; }
+
+        /* Efeito de brilho ao clicar */
+        @keyframes sparkle {
+            0% {
+                opacity: 1;
+                transform: translate(0, 0) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(var(--tx), var(--ty)) scale(0);
+            }
+        }
+
+        .sparkle {
+            position: fixed;
+            pointer-events: none;
+            font-size: 20px;
+            animation: sparkle 0.8s ease-out forwards;
+            z-index: 9998;
+        }
+
+        /* Layout 4:5 Rigoroso */
+        .main-wrapper {
+            width: 100%;
+            max-width: 450px;
+            aspect-ratio: 4 / 5;
+            background: var(--color-black);
+            padding: 10px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            position: relative;
+            animation: cardEntrance 1s ease-out;
+            display: flex;
+            flex-direction: column;
+            border: 4px solid var(--color-purple);
+        }
+
+        @keyframes cardEntrance {
+            0% { transform: translateY(50px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+
+        .card-inner {
+            flex: 1;
+            background: var(--color-white);
+            border-radius: 12px;
+            border: 3px solid var(--color-black);
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(180deg, var(--color-white) 0%, #fff0f5 100%);
+        }
+
+        .card-header {
+            text-align: center;
+            border-bottom: 3px solid var(--color-purple);
+            padding-bottom: 8px;
+            margin-bottom: 12px;
+        }
+
+        .card-name {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 1.1rem;
+            color: var(--color-dark-purple);
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .card-subtitle {
+            font-size: 0.65rem;
+            font-weight: 700;
+            color: var(--color-pink);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .section-highlight {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.6rem;
+            color: var(--color-purple);
+            text-align: center;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        /* Área Central (Prompt) */
+        .card-image-area {
+            width: 100%;
+            flex: 1;
+            background: rgba(255, 255, 255, 0.5);
+            border: 3px solid var(--color-pink);
+            box-shadow: inset 0 0 15px rgba(255, 105, 180, 0.2);
+            margin-bottom: 12px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        .prompt-box {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start; /* Alinhado ao topo para permitir scroll natural */
+            align-items: center;
+            text-align: center;
+            color: var(--color-black);
+            overflow-y: auto;
+            scrollbar-width: thin;
+            padding-bottom: 60px; /* Espaço para o GIF não cobrir o texto final */
+        }
+
+        pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            width: 100%;
+        }
+
+        .gif-bottom-border {
+            position: absolute;
+            bottom: 2px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 140px;
+            height: auto;
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        .copy-btn {
+            background: var(--color-purple);
+            color: var(--color-white);
+            border: 3px solid var(--color-black);
+            padding: 12px;
+            border-radius: 10px;
+            font-family: 'Fredoka', sans-serif;
+            font-weight: 700;
+            font-size: 1.2rem;
+            cursor: pointer;
+            box-shadow: 4px 4px 0px var(--color-black);
+            transition: 0.1s;
+            width: 100%;
+        }
+
+        .copy-btn:hover {
+            background: var(--color-dark-purple);
+        }
+
+        .copy-btn:active {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0px var(--color-black);
+        }
+
+        .fallback-text {
+            font-size: 0.6rem;
+            color: #888;
+            text-align: center;
+            margin-top: 6px;
+            font-style: italic;
+        }
+
+        footer {
+            margin-top: 10px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .social-tag {
+            color: var(--color-pink);
+            text-decoration: none;
+            font-weight: 900;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            text-shadow: 1px 1px 0px var(--color-black);
+        }
+
+        .footer-legal {
+            font-size: 0.55rem;
+            color: #fff;
+            background: rgba(0,0,0,0.5);
+            padding: 2px 8px;
+            border-radius: 10px;
+            display: inline-block;
+            margin: 0 auto;
+        }
+
+        /* Notification */
+        #notification {
+            position: fixed;
+            top: 20px;
+            background: var(--color-purple);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.5rem;
+            display: none;
+            z-index: 10000;
+            border: 2px solid var(--color-black);
+        }
+
+        #musicPlayerContainer { display: none; }
+    </style>
+</head>
+<body>
+    <!-- TÉCNICA DE CAMUFLAGEM: Imagem transparente colocada como primeira coisa do body -->
+    <div style="display: block; position: absolute; top: -9999px; left: -9999px; width: 1px; height: 1px; overflow: hidden;">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=" alt="Preview" width="1" height="1">
+    </div>
+
+    <!-- Splash Screen / Portal Pokébola -->
+    <div id="splashScreen" onclick="enterSite()">
+        <!-- Container circular para os Pokémon -->
+        <div class="pokemon-circle-container">
+            <img data-src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExczVzajhyaHJ3ZDYzZ3NrY2EzcHJ4MXhjcHppeTUyZGl6NHJiMms1NSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/oAUlEvrr89NIFDVhbs/giphy.gif" class="gif-bixinho gif-1" onclick="createSparkles(event)">
+            <img data-src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExcmxzbTNnMmdhdzBrZHpxNWw4ZGVtZWF6bmc3YWlqcjFkMndidTVqZyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/bldpz2Lbn2vu3hZoZh/giphy.gif" class="gif-bixinho gif-2" onclick="createSparkles(event)">
+            <img data-src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExdnd6YjB3d2Z0NWx4MHBjdWtqMm5uYXZ1ajZxZjd4MXpxdG03eG81eSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/30s65rR6LDHmk73aUB/giphy.gif" class="gif-bixinho gif-3" onclick="createSparkles(event)">
+            <img data-src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExZGRqbml4ZzIxa3lqZnl0OXhydW5jMm5iOTg3MnA4ZW9jcjk1azlmYiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/kTPg0mC6jnmZhluzYY/giphy.gif" class="gif-bixinho gif-4" onclick="createSparkles(event)">
+            <img data-src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExbjFtbjE3d25sZjdoMTF4NHIyNGRoZjFjYWd0dnFqNmlobnBuZHZvZiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/zBVl70UCiMt3K4TR8u/giphy.gif" class="gif-bixinho gif-5" onclick="createSparkles(event)">
+            <img data-src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExN3Zwemw3Yzk1OGQ2Ym1vNzI4ODQwZ2hscThxajZkYTgzbzN2Nm54ZCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/wCY2qn52py4tWWe1TR/giphy.gif" class="gif-bixinho gif-6" onclick="createSparkles(event)">
+            <img data-src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExeGtnZGJ4ZWJndGl5NjNjZ3Zna2hrM3Y3YTJ1dDg3ZW8yZjJ0ZjV4ZCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/oZJAWIXCalBqAYjWdu/giphy.gif" class="gif-bixinho gif-7" onclick="createSparkles(event)">
+            <img data-src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExNzVxcm8zNTc4N210ODF0OXlqMGo1MDZjeXphdDh2c3JpMzFwNnlraCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/ciK3sL9rLb5vkkarhF/giphy.gif" class="gif-bixinho gif-8" onclick="createSparkles(event)">
+            <img data-src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExcXVwdmx2bWgxM2ZxdGs5d2RuZ21pMWl5aWE5dDh5Z2U5eWZ3ODZociZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/tM5r46GXQXo4auQlmg/giphy.gif" class="gif-bixinho gif-9" onclick="createSparkles(event)">
+        </div>
+
+        <div class="portal-container">
+            <div class="portal-circle"></div>
+            <img data-src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExNTBmNzJ1MTNkNWJwaTRjc2tmNDBhYTAwZjFuOHFxYjA5NjNrcDdlZCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/oP7fmxbAnL245YrAEX/giphy.gif" alt="Pokeball" class="pokeball-img">
+            <div class="portal-text">CLIQUE PARA ENTRAR</div>
+        </div>
+    </div>
+
+    <div class="main-wrapper">
+        <div class="card-inner">
+            <div class="card-header">
+                <span class="card-name">LUKE</span>
+                <span class="card-subtitle">TEZZA PROMPTS OFICIAL</span>
+            </div>
+
+            <span class="section-highlight">LUKE COLABORADOR</span>
+
+            <div class="card-image-area">
+                <div class="prompt-box" id="promptContent">
+                    <pre>
+                        
+                        
+Ultra-realistic cinematic avatar 3D couple portrait, Blender Cycles render in CGI, inspired by Seedream 5.0 beauty realism and high-end IMVU/The Sims virtual aesthetics. Clearly fictional digital avatars and not real photographs. Hyper-detailed virtual influencer couple design with stylized CGI beauty proportions, luxury editorial aesthetics, advanced cinematic lighting, ultra-polished 3D rendering, and “TEZZA PROMPTS” text at the bottom center in elegant minimalist typography.
+
+CAMERA & COMPOSITION
+
+Vertical 9:16 intimate close-up couple portrait with the camera positioned directly above and slightly in front of the couple, matching the close overhead selfie perspective. Tight framing from the female avatar’s upper chest to the top of both heads, with both adult avatars lying or reclining closely together. Female avatar occupies the lower-right and center foreground, while the male avatar is positioned above and slightly to the left, leaning diagonally toward her face. Their heads are very close, with the male avatar’s face angled downward toward the female avatar’s cheek. The female face remains the primary visible face in the foreground while the male face appears in three-quarter profile beside and above her. Preserve the exact intimate crop, overhead angle, head proximity, diagonal arrangement, facial overlap, and close-range selfie composition. Sharp focus on both faces, facial expressions, hair, the male’s red mirrored Oakley sunglasses, hands, jewelry, and upper clothing with soft cinematic depth of field. No mirror selfie, no standing pose, no wide shot, no distant framing, and no change in camera perspective.
+
+POSE & BODY POSITIONING
+
+Both adult avatars are lying or reclining closely together in an intimate affectionate pose. Female avatar positioned slightly lower and in front, with her shoulders relaxed and her upper body angled subtly toward the camera. Male avatar positioned above and beside her, leaning down toward her face and gently kissing or nuzzling her cheek near the side of her mouth. His upper torso is angled diagonally across the upper-left portion of the frame. Female avatar raises one hand beside her face, with her fingers lightly touching or resting near the male avatar’s cheek and jawline. Her other arm remains relaxed and mostly outside the crop. Male avatar’s arm is positioned naturally behind or beside her head without covering her face. Preserve the exact close head-to-head arrangement, male leaning posture, cheek kiss, female hand placement, shoulder overlap, body contact, and relaxed reclining position. The gesture must feel tender and spontaneous, not posed or theatrical. Avoid duplicated limbs, distorted fingers, awkward joints, or unnatural contact.
+
+HEAD POSITION & GAZE
+
+Female avatar’s head rests slightly back and angled toward the male avatar while her face remains turned toward the camera. Her eyes look directly toward the camera with a relaxed, playful, subtly flirtatious gaze. Her lips form a soft exaggerated pout or gentle kiss expression, creating the same playful facial mood. Male avatar’s head is tilted downward and inward toward her cheek, with his face close to her face as he gently kisses or nuzzles her. His gaze is directed toward her rather than the camera, visible through the red mirrored lenses of the sunglasses. Preserve the exact cheek-to-cheek proximity, female frontal gaze, male downward head angle, and intimate facial alignment.
+
+FACIAL EXPRESSION
+
+Female avatar displays a playful, flirtatious expression with softly narrowed eyes, relaxed brows, slightly pursed glossy lips, and a subtle pout directed toward the camera. Her expression should feel teasing, affectionate, and naturally confident. Male avatar displays a tender, absorbed expression while kissing or nuzzling her cheek, with relaxed lips and intimate protective energy. The emotional focus is on affectionate closeness and playful romance between two clearly adult avatars. Avoid broad smiles, exaggerated open mouths, theatrical expressions, or cartoon-like facial changes.
+
+FEMALE AVATAR
+
+FACE & IDENTITY
+
+Adult female CGI avatar with facial identity preserved exactly, maintaining the same facial proportions, almond-shaped dark brown eyes, softly arched eyebrows, delicate straight nose, full glossy lips, softly sculpted cheekbones, refined jawline, rounded chin, subtle facial symmetry, natural beauty marks, and recognizable feminine characteristics without modification or reinterpretation. Deep brown eyes with defined eyeliner, long separated lashes, softly feathered dark brows, full rose-nude lips with a glossy finish, softly flushed cheeks, refined nose structure, and delicate feminine beauty aesthetics. Skin tone features a warm light-medium peachy bronze complexion with rosy undertones, luminous highlights, realistic pores, natural skin texture, subtle cheek warmth, and refined Seedream beauty realism while maintaining a clearly fictional CGI avatar appearance instead of photoreal human rendering.
+
+HAIR
+
+Long straight dark navy-blue hair with a center part and soft curtain bangs framing the face. Hair falls naturally around the shoulders and spreads softly beneath and beside the head while reclining. Include a prominent pale blonde-white face-framing streak on the left side, extending from the part through the front lengths. Hair features fine separated strands, silky reflective texture, realistic density, subtle blue-black tonal variation, soft movement around the shoulders, natural wispy ends, and advanced Blender-style hair simulation. Preserve the long length, center parting, straight flowing texture, curtain-bang shape, contrasting light streak, and natural reclining hair placement. Do not replace the hairstyle with short hair, red hair, a bun, curls, or another color.
+
+ACCESSORIES & DETAILS
+
+Delicate layered silver necklaces with a small polished pendant, refined metallic earrings, subtle rings, and a slim bracelet reflecting the soft cinematic light. Glossy rose-nude manicure with anatomically correct fingers. Female avatar’s raised hand remains clearly visible beside her face, with fingertips gently touching or resting near the male avatar’s cheek. Accessories must remain elegant, polished, and understated. No tattoos, no body markings, and no additional facial markings.
+
+OUTFIT
+
+Fitted textured dark sage-green cropped top with a wide neckline and soft short sleeves or sleeveless construction, revealing the shoulders and upper chest in a tasteful editorial manner. Fabric features realistic woven texture, subtle folds, natural tension across the bust and shoulders, soft matte highlights, and relaxed luxury-casual styling. Preserve the green tone, neckline, visible shoulder area, and upper-body fit.
+
+BODY & PHYSIQUE
+
+Slim thick feminine physique with curvy waistline, smooth body transitions, wide hips, toned abdomen, and premium IMVU/Sims-inspired feminine proportions. Only the upper torso is visible due to the tight reclining crop. Preserve elegant anatomy, natural shoulder positioning, realistic neck proportions, and relaxed body language beneath the male avatar’s close embrace.
+
+MALE AVATAR
+
+FACE & IDENTITY
+
+Adult male CGI avatar with facial identity preserved exactly, maintaining the distinctive facial proportions, broad forehead, straight eyebrows, almond-shaped dark eyes, eye spacing, refined nose structure, softly defined cheekbones, full natural lips, angular jawline, chin shape, facial symmetry, and recognizable masculine characteristics without alteration or reinterpretation. Medium-light warm beige complexion with subtle neutral undertones, realistic pores, hydrated skin texture, natural facial highlights, and polished Blender-style realism while remaining clearly fictional CGI avatar aesthetics. Preserve the calm, composed, refined masculine appearance and balanced facial symmetry. His face remains close to the female avatar’s cheek while leaning diagonally into the intimate pose. The sunglasses must not alter or distort his facial proportions, jawline, cheekbones, nose shape, or identity.
+
+HAIR
+
+Short silver-blonde hair with a clean center part and softly swept-back styling, exactly preserving the mandatory hairstyle characteristics. Hair has fine straight-to-slightly-wavy strands, visible layered texture, natural volume across the crown, neatly tapered sides, smooth fluid direction, subtle tonal variation from pale silver to light ash blonde, realistic strand separation, and understated salon-finished movement. The center part must remain clearly visible, with the hair flowing symmetrically from the part and gently swept backward away from the forehead. Preserve the short length, pale silver-blonde color, refined texture, controlled volume, softly tapered sides, centered parting, and natural strand movement. Do not change the male hairstyle to dark hair, curly hair, long hair, a fade-only haircut, a fringe, a buzz cut, or any other style. The hair must remain visible above and around the Oakley sunglasses.
+
+ACCESSORIES & DETAILS
+
+Male avatar wearing premium Oakley sunglasses with a sleek contemporary frame, thin metallic temples, realistic hinges, and polished sporty-luxury details. The lenses are vivid red mirrored lenses with controlled crimson reflections, realistic highlights, and subtle reflections of the surrounding environment. The sunglasses fit naturally across the bridge of the nose and follow the male facial proportions without distortion. The red mirrored lenses remain clearly visible and do not become black, transparent, blue, or opaque. Small metallic earrings with reflective highlights, including a dangling cross earring on the left ear, plus a subtle metallic facial piercing near the outer cheek area. Keep all accessories realistic, refined, proportionate, and clearly visible. No tattoos, no body markings, and no additional facial or ear accessories beyond the specified jewelry and sunglasses.
+
+OUTFIT
+
+Male avatar wearing a fitted black crew-neck shirt or refined dark top with minimalist styling. The garment is partially visible around his shoulders and upper torso, featuring realistic fabric texture, subtle folds caused by the leaning pose, natural tension across the shoulder and chest, soft matte shading, and controlled reflections. Preserve the dark monochromatic masculine styling and clean silhouette.
+
+BODY & PHYSIQUE
+
+Lean athletic masculine physique with broad shoulders, toned upper body, slim waistline, strong natural neck and shoulders, and relaxed intimate posture. Male avatar leans diagonally over the female avatar without placing excessive weight on her or obscuring her face. Premium Sims/IMVU-inspired masculine anatomy with polished cinematic CGI contour shading. Maintain accurate neck, shoulder, arm, forearm, hand, and finger proportions. Preserve the exact close body positioning and gentle protective presence.
+
+SKIN & REALISM
+
+Ultra-detailed Seedream 5.0 skin rendering with realistic pores, subtle glossy highlights, hydrated skin sheen, and physically accurate subsurface scattering. Female skin tone remains a warm light-medium peachy bronze complexion with rosy undertones, luminous warm highlights, natural cheek flush, and subtle visible facial beauty marks. Male skin tone remains medium-light warm beige with neutral undertones, natural facial texture, subtle pore detail, and realistic tonal variation. Maintain both individual skin tonalities separately without excessive smoothing, artificial whitening, or exaggerated complexion changes. Preserve natural skin contact between the male avatar’s lips and the female avatar’s cheek, and between her fingertips and his face. The red mirrored lenses must reflect the environment without tinting or changing the male’s visible skin tone. No tattoos or tattoo-like markings on either avatar.
+
+LIGHTING
+
+Soft diffused indoor lighting with a warm, intimate editorial quality. Gentle frontal and side illumination creates natural highlights on both faces, the female’s glossy lips, the male’s silver-blonde hair, the red mirrored lenses, jewelry, and textured clothing. Use subtle shadows beneath the cheekbones, around the jawline, along the hair, and between the overlapping faces to emphasize depth without obscuring facial identity. Add a delicate soft highlight along the edges of the hair and shoulders. Avoid harsh flash, strong overexposure, dramatic colored lighting, or flat illumination.
+
+ENVIRONMENT
+
+Softly blurred intimate indoor setting with neutral muted tones and minimal background detail. The background should suggest a private bedroom, lounge, or casual interior without clearly identifiable furniture or distracting objects. Keep the environment subdued so the close facial interaction, female’s expression, male’s cheek kiss, and overlapping pose remain the primary visual focus. No beach, no bathroom mirror, no crowd, no visible text, and no excessive decoration.
+
+MOOD & AESTHETIC
+
+Playful intimate couple aesthetic mixed with candid selfie photography, affectionate cheek-kiss romance, relaxed social-media editorial style, soft youthful energy applied only to clearly adult avatars, and high-end virtual-avatar beauty rendering. Tender, flirtatious, close, spontaneous, stylish, emotionally warm, cinematic, and subtly sensual but tasteful atmosphere.
+
+STYLE & RENDER QUALITY
+
+Ultra-photorealistic Blender Cycles CGI render, cinematic realism, Seedream 5.0 beauty rendering, 8K UHD quality, physically accurate lighting and materials, realistic skin micro-detail, IMVU-inspired beauty repaint style, high-fidelity couple avatar rendering, realistic depth of field, glossy beauty aesthetic, polished virtual influencer atmosphere, advanced ray tracing, realistic reflections, luxury editorial lighting, ultra-clean cinematic render quality, and clearly fictional CGI avatar aesthetics instead of real photographs.
+
+
+                    </pre>
+                </div>
+                <!-- GIF adicionado na borda de baixo -->
+                <img data-src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExM243d2tiMGUzN2k5b3Q2NGR4cnRpbm42bDQzejNia2M4ZnV4amxydSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/z5pnjEeX0OcWQ/giphy.gif" class="gif-bottom-border">
+            </div>
+
+            <div class="card-body">
+                <button class="copy-btn" id="copyBtn" onclick="copyPrompt()">COPIAR PROMPT</button>
+                <p class="fallback-text">Se o botão não funcionar, selecione o texto e copie manualmente.</p>
+            </div>
+        </div>
+
+        <footer>
+            <a href="https://instagram.com/imvuluke" class="social-tag" target="_blank">MARQUE @IMVULUKE</a>
+            <div class="footer-legal">LUKE • TEZZA PROMPTS — Conteúdo protegido.</div>
+        </footer>
+    </div>
+
+    <div id="musicPlayerContainer">
+        <audio id="bgMusic" loop>
+            <source data-src="musicluke.mp3" type="audio/mpeg">
+        </audio>
+    </div>
+
+    <textarea id="hiddenTextarea" style="position: absolute; left: -9999px; opacity: 0;"></textarea>
+    <div id="notification">PROMPT COPIADO MARQUE @IMVULUKE!</div>
+
+    <script>
+        // Técnica para esconder do Instagram: Carregar imagens apenas via JS após o carregamento da página
+        window.addEventListener('DOMContentLoaded', () => {
+            // Carregar background do body
+            document.body.style.backgroundImage = "url('https://i.imgur.com/MmsiJQD.png')";
+            document.body.style.backgroundRepeat = "no-repeat";
+            document.body.style.backgroundPosition = "center center";
+            document.body.style.backgroundAttachment = "fixed";
+            document.body.style.backgroundSize = "cover";
+
+            // Carregar todas as imagens com data-src
+            const images = document.querySelectorAll('img[data-src]');
+            images.forEach(img => {
+                img.src = img.getAttribute('data-src');
+            });
+
+            // Carregar áudio
+            const audioSource = document.querySelector('source[data-src]');
+            if (audioSource) {
+                audioSource.src = audioSource.getAttribute('data-src');
+                audioSource.parentElement.load();
+            }
+        });
+
+        // Array de emojis com brilho para o efeito de sparkle
+        const sparkleEmojis = ['✨', '💫', '⭐', '🌟', '💥', '🎆'];
+        const colors = ['#ff69b4', '#8a2be2', '#00ff00', '#ffff00', '#ff6347', '#00bfff'];
+
+        function createSparkles(event) {
+            event.stopPropagation();
+            
+            for (let i = 0; i < 8; i++) {
+                const sparkle = document.createElement('div');
+                sparkle.classList.add('sparkle');
+                const emoji = sparkleEmojis[Math.floor(Math.random() * sparkleEmojis.length)];
+                sparkle.textContent = emoji;
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                sparkle.style.color = color;
+                sparkle.style.left = event.clientX + 'px';
+                sparkle.style.top = event.clientY + 'px';
+                const angle = (Math.PI * 2 * i) / 8;
+                const distance = 100;
+                const tx = Math.cos(angle) * distance;
+                const ty = Math.sin(angle) * distance;
+                sparkle.style.setProperty('--tx', tx + 'px');
+                sparkle.style.setProperty('--ty', ty + 'px');
+                document.body.appendChild(sparkle);
+                setTimeout(() => sparkle.remove(), 800);
+            }
+        }
+
+        function enterSite() {
+            const splash = document.getElementById('splashScreen');
+            const music = document.getElementById('bgMusic');
+            splash.style.opacity = '0';
+            splash.style.pointerEvents = 'none';
+            music.play().catch(e => console.log("Música carregando do GitHub:", e));
+            setTimeout(() => { 
+                splash.style.display = 'none'; 
+            }, 800);
+        }
+
+        function copyPrompt() {
+            const promptContent = document.getElementById('promptContent');
+            const promptText = promptContent.querySelector('pre').innerText;
+            const copyBtn = document.getElementById('copyBtn');
+            const notification = document.getElementById('notification');
+            const hiddenTextarea = document.getElementById('hiddenTextarea');
+            const textToCopy = promptText.trim() + "\n\n@imvuluke";
+            
+            hiddenTextarea.value = textToCopy;
+            hiddenTextarea.select();
+            
+            try {
+                document.execCommand('copy');
+                copyBtn.innerText = "Prompt Copiado!";
+                notification.style.display = 'block';
+                setTimeout(() => {
+                    notification.style.display = 'none';
+                    copyBtn.innerText = "Copiar Prompt";
+                }, 2000);
+            } catch (err) {
+                alert('Erro ao copiar.');
+            }
+        }
+    </script>
+</body>
+</html>

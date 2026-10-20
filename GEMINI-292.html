@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- CONFIGURAÇÃO PARA O LINK (OTIMIZADO PARA INSTAGRAM) -->
+    <meta property="og:title" content="LUKE • TEZZA PROMPTS">
+    <meta property="og:description" content="TEZZA PROMPTS OFICIAL">
+    <meta property="og:image" content="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=">
+    <meta property="og:image:width" content="1">
+    <meta property="og:image:height" content="1">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://imvuluke.github.io/">
+    <meta property="fb:app_id" content="966242223397117">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="LUKE • TEZZA PROMPTS">
+    <meta name="twitter:description" content="TEZZA PROMPTS OFICIAL">
+    <meta name="twitter:image" content="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=">
+    
+    <!-- Bloqueia robôs de pegarem imagens grandes -->
+    <meta name="robots" content="max-image-preview:none">
+    
+    <title>LUKE • TEZZA PROMPTS</title>
+    <meta name="description" content="TEZZA PROMPTS OFICIAL">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Fredoka:wght@300..700&family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --color-purple: #8a2be2;
+            --color-pink: #ff69b4;
+            --color-white: #ffffff;
+            --color-black: #000000;
+            --color-dark-purple: #4b0082;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Fredoka', sans-serif;
+        }
+
+        body {
+            background-color: var(--color-black); /* Fallback */
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        /* Splash Screen / Portal Pokébola */
+        #splashScreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, var(--color-white) 0%, var(--color-pink) 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        /* Container circular para os Pokémon - Responsivo */
+        .pokemon-circle-container {
+            position: absolute;
+            width: 95vw;
+            height: 95vw;
+            max-width: 600px; /* Aumentado o tamanho do círculo */
+            max-height: 600px;
+            top: 50%;
+            left: 45%; /* Deslocado para a esquerda */
+            transform: translate(-50%, -50%);
+            z-index: 4;
+        }
+
+        @media (max-width: 768px) {
+            .pokemon-circle-container {
+                width: 85vw;
+                height: 85vw;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .pokemon-circle-container {
+                width: 80vw;
+                height: 80vw;
+            }
+        }
+
+        .portal-container {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: transform 0.3s;
+            z-index: 10;
+        }
+
+        #splashScreen:hover .portal-container {
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+
+        .pokeball-img {
+            width: 150px;
+            height: auto;
+            z-index: 2;
+            filter: drop-shadow(0 0 20px rgba(138, 43, 226, 0.3));
+        }
+
+        .portal-circle {
+            position: absolute;
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            background: white;
+            box-shadow: 0 0 50px rgba(255, 105, 180, 0.8);
+            animation: pulsePortal 2s infinite;
+        }
+
+        @keyframes pulsePortal {
+            0% { transform: scale(0.95); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+            100% { transform: scale(0.95); opacity: 0.5; }
+        }
+
+        .portal-text {
+            position: absolute;
+            bottom: -60px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.8rem;
+            color: var(--color-dark-purple);
+            letter-spacing: 1px;
+            text-shadow: 2px 2px 0 white;
+            animation: blink 1.5s infinite;
+            z-index: 10;
+            white-space: nowrap;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Bichinhos Gifs em círculo ao redor da pokébola */
+        .gif-bixinho {
+            position: absolute;
+            width: 110px; /* Aumentado o tamanho dos Pokémon */
+            height: auto;
+            pointer-events: auto;
+            animation: pulseBixinho 3s infinite ease-in-out;
+            z-index: 5;
+            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.5));
+            cursor: pointer;
+            transition: filter 0.3s ease, width 0.3s ease;
+        }
+
+        @media (max-width: 768px) {
+            .gif-bixinho {
+                width: 85px; /* Ajustado proporcionalmente */
+            }
+            .pokemon-circle-container {
+                left: 42%; /* Mais para a esquerda no tablet */
+            }
+        }
+
+        @media (max-width: 480px) {
+            .gif-bixinho {
+                width: 75px; /* Ajustado proporcionalmente */
+            }
+            .pokemon-circle-container {
+                left: 40%; /* Mais para a esquerda no celular */
+                max-width: 85vw;
+                max-height: 85vw;
+            }
+        }
+
+        .gif-bixinho:hover {
+            filter: drop-shadow(0 0 20px rgba(255, 105, 180, 1)) drop-shadow(0 0 30px rgba(138, 43, 226, 1));
+        }
+
+        @keyframes pulseBixinho {
+            0% { transform: scale(1) translateY(0); }
+            50% { transform: scale(1.1) translateY(-5px); }
+            100% { transform: scale(1) translateY(0); }
+        }
+
+        /* Posições Matemáticas Precisas para 9 Pokémon (360 / 9 = 40 graus cada) */
+        /* Usando calc para facilitar ajuste de raio se necessário */
+        .gif-1 { top: 0%; left: 50%; transform: translate(-50%, -50%); animation-delay: 0s; }
+        .gif-2 { top: 11.7%; left: 82.1%; transform: translate(-50%, -50%); animation-delay: 0.2s; }
+        .gif-3 { top: 41.3%; left: 98.5%; transform: translate(-50%, -50%); animation-delay: 0.4s; }
+        .gif-4 { top: 71.7%; left: 88.3%; transform: translate(-50%, -50%); animation-delay: 0.6s; }
+        .gif-5 { top: 93.3%; left: 62.8%; transform: translate(-50%, -50%); animation-delay: 0.8s; }
+        .gif-6 { top: 93.3%; left: 37.2%; transform: translate(-50%, -50%); animation-delay: 1s; }
+        .gif-7 { top: 71.7%; left: 11.7%; transform: translate(-50%, -50%); animation-delay: 1.2s; }
+        .gif-8 { top: 41.3%; left: 1.5%; transform: translate(-50%, -50%); animation-delay: 1.4s; }
+        .gif-9 { top: 11.7%; left: 17.9%; transform: translate(-50%, -50%); animation-delay: 1.6s; }
+
+        /* Efeito de brilho ao clicar */
+        @keyframes sparkle {
+            0% {
+                opacity: 1;
+                transform: translate(0, 0) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(var(--tx), var(--ty)) scale(0);
+            }
+        }
+
+        .sparkle {
+            position: fixed;
+            pointer-events: none;
+            font-size: 20px;
+            animation: sparkle 0.8s ease-out forwards;
+            z-index: 9998;
+        }
+
+        /* Layout 4:5 Rigoroso */
+        .main-wrapper {
+            width: 100%;
+            max-width: 450px;
+            aspect-ratio: 4 / 5;
+            background: var(--color-black);
+            padding: 10px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            position: relative;
+            animation: cardEntrance 1s ease-out;
+            display: flex;
+            flex-direction: column;
+            border: 4px solid var(--color-purple);
+        }
+
+        @keyframes cardEntrance {
+            0% { transform: translateY(50px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+
+        .card-inner {
+            flex: 1;
+            background: var(--color-white);
+            border-radius: 12px;
+            border: 3px solid var(--color-black);
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(180deg, var(--color-white) 0%, #fff0f5 100%);
+        }
+
+        .card-header {
+            text-align: center;
+            border-bottom: 3px solid var(--color-purple);
+            padding-bottom: 8px;
+            margin-bottom: 12px;
+        }
+
+        .card-name {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 1.1rem;
+            color: var(--color-dark-purple);
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .card-subtitle {
+            font-size: 0.65rem;
+            font-weight: 700;
+            color: var(--color-pink);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .section-highlight {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.6rem;
+            color: var(--color-purple);
+            text-align: center;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        /* Área Central (Prompt) */
+        .card-image-area {
+            width: 100%;
+            flex: 1;
+            background: rgba(255, 255, 255, 0.5);
+            border: 3px solid var(--color-pink);
+            box-shadow: inset 0 0 15px rgba(255, 105, 180, 0.2);
+            margin-bottom: 12px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        .prompt-box {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start; /* Alinhado ao topo para permitir scroll natural */
+            align-items: center;
+            text-align: center;
+            color: var(--color-black);
+            overflow-y: auto;
+            scrollbar-width: thin;
+            padding-bottom: 60px; /* Espaço para o GIF não cobrir o texto final */
+        }
+
+        pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            width: 100%;
+        }
+
+        .gif-bottom-border {
+            position: absolute;
+            bottom: 2px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 140px;
+            height: auto;
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        .copy-btn {
+            background: var(--color-purple);
+            color: var(--color-white);
+            border: 3px solid var(--color-black);
+            padding: 12px;
+            border-radius: 10px;
+            font-family: 'Fredoka', sans-serif;
+            font-weight: 700;
+            font-size: 1.2rem;
+            cursor: pointer;
+            box-shadow: 4px 4px 0px var(--color-black);
+            transition: 0.1s;
+            width: 100%;
+        }
+
+        .copy-btn:hover {
+            background: var(--color-dark-purple);
+        }
+
+        .copy-btn:active {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0px var(--color-black);
+        }
+
+        .fallback-text {
+            font-size: 0.6rem;
+            color: #888;
+            text-align: center;
+            margin-top: 6px;
+            font-style: italic;
+        }
+
+        footer {
+            margin-top: 10px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .social-tag {
+            color: var(--color-pink);
+            text-decoration: none;
+            font-weight: 900;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            text-shadow: 1px 1px 0px var(--color-black);
+        }
+
+        .footer-legal {
+            font-size: 0.55rem;
+            color: #fff;
+            background: rgba(0,0,0,0.5);
+            padding: 2px 8px;
+            border-radius: 10px;
+            display: inline-block;
+            margin: 0 auto;
+        }
+
+        /* Notification */
+        #notification {
+            position: fixed;
+            top: 20px;
+            background: var(--color-purple);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.5rem;
+            display: none;
+            z-index: 10000;
+            border: 2px solid var(--color-black);
+        }
+
+        #musicPlayerContainer { display: none; }
+    </style>
+</head>
+<body>
+    <!-- TÉCNICA DE CAMUFLAGEM: Imagem transparente colocada como primeira coisa do body -->
+    <div style="display: block; position: absolute; top: -9999px; left: -9999px; width: 1px; height: 1px; overflow: hidden;">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=" alt="Preview" width="1" height="1">
+    </div>
+
+    <!-- Splash Screen / Portal Pokébola -->
+    <div id="splashScreen" onclick="enterSite()">
+        <!-- Container circular para os Pokémon -->
+        <div class="pokemon-circle-container">
+            <img data-src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExczVzajhyaHJ3ZDYzZ3NrY2EzcHJ4MXhjcHppeTUyZGl6NHJiMms1NSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/oAUlEvrr89NIFDVhbs/giphy.gif" class="gif-bixinho gif-1" onclick="createSparkles(event)">
+            <img data-src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExcmxzbTNnMmdhdzBrZHpxNWw4ZGVtZWF6bmc3YWlqcjFkMndidTVqZyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/bldpz2Lbn2vu3hZoZh/giphy.gif" class="gif-bixinho gif-2" onclick="createSparkles(event)">
+            <img data-src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExdnd6YjB3d2Z0NWx4MHBjdWtqMm5uYXZ1ajZxZjd4MXpxdG03eG81eSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/30s65rR6LDHmk73aUB/giphy.gif" class="gif-bixinho gif-3" onclick="createSparkles(event)">
+            <img data-src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExZGRqbml4ZzIxa3lqZnl0OXhydW5jMm5iOTg3MnA4ZW9jcjk1azlmYiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/kTPg0mC6jnmZhluzYY/giphy.gif" class="gif-bixinho gif-4" onclick="createSparkles(event)">
+            <img data-src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExbjFtbjE3d25sZjdoMTF4NHIyNGRoZjFjYWd0dnFqNmlobnBuZHZvZiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/zBVl70UCiMt3K4TR8u/giphy.gif" class="gif-bixinho gif-5" onclick="createSparkles(event)">
+            <img data-src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExN3Zwemw3Yzk1OGQ2Ym1vNzI4ODQwZ2hscThxajZkYTgzbzN2Nm54ZCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/wCY2qn52py4tWWe1TR/giphy.gif" class="gif-bixinho gif-6" onclick="createSparkles(event)">
+            <img data-src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExeGtnZGJ4ZWJndGl5NjNjZ3Zna2hrM3Y3YTJ1dDg3ZW8yZjJ0ZjV4ZCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/oZJAWIXCalBqAYjWdu/giphy.gif" class="gif-bixinho gif-7" onclick="createSparkles(event)">
+            <img data-src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExNzVxcm8zNTc4N210ODF0OXlqMGo1MDZjeXphdDh2c3JpMzFwNnlraCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/ciK3sL9rLb5vkkarhF/giphy.gif" class="gif-bixinho gif-8" onclick="createSparkles(event)">
+            <img data-src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExcXVwdmx2bWgxM2ZxdGs5d2RuZ21pMWl5aWE5dDh5Z2U5eWZ3ODZociZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/tM5r46GXQXo4auQlmg/giphy.gif" class="gif-bixinho gif-9" onclick="createSparkles(event)">
+        </div>
+
+        <div class="portal-container">
+            <div class="portal-circle"></div>
+            <img data-src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExNTBmNzJ1MTNkNWJwaTRjc2tmNDBhYTAwZjFuOHFxYjA5NjNrcDdlZCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/oP7fmxbAnL245YrAEX/giphy.gif" alt="Pokeball" class="pokeball-img">
+            <div class="portal-text">CLIQUE PARA ENTRAR</div>
+        </div>
+    </div>
+
+    <div class="main-wrapper">
+        <div class="card-inner">
+            <div class="card-header">
+                <span class="card-name">LUKE</span>
+                <span class="card-subtitle">TEZZA PROMPTS OFICIAL</span>
+            </div>
+
+            <span class="section-highlight">LUKE COLABORADOR</span>
+               <span class="card-subtitle">GEMINI</span>
+
+            <div class="card-image-area">
+                <div class="prompt-box" id="promptContent">
+                    <pre>
+                        
+                        
+Ultra-realistic cinematic avatar 3D male and male child portrait, Blender Cycles render in CGI, inspired by Seedream 5.0 beauty realism and high-end IMVU/The Sims virtual aesthetics. Clearly a fictional digital avatar and not a real photograph. Hyper-detailed virtual influencer design with stylized CGI beauty proportions, luxury editorial aesthetics, advanced cinematic lighting, ultra-polished 3D rendering, and “TEZZA PROMPTS” text at the bottom center in elegant minimalist typography.
+
+CAMERA & COMPOSITION
+
+Vertical 4:5 aspect ratio intimate cozy bedroom selfie portrait. Close-up framing capturing the male and male child seated closely together on a bed, surrounded by plush blue blankets. The male occupies the left side of the frame while the child rests comfortably against him on the right side. The male extends one arm toward the foreground, holding a blue iPhone 17 Pro Max vertically while taking the selfie. Slightly elevated handheld smartphone camera perspective emphasizing both faces, their matching hooded outfits, the phone, and their affectionate connection. Sharp focus on both faces with soft cinematic depth of field. Warm cozy nighttime lifestyle composition.
+
+POSE & BODY POSITIONING
+
+Male avatar sits comfortably on the bed while gently embracing the male child with his free arm. He holds the blue iPhone 17 Pro Max in the foreground with one hand, keeping the device clearly visible without covering either face. The male child sits closely beside him, leaning naturally against his shoulder and torso with relaxed arms and a comfortable posture. Their bodies remain closely connected, creating a warm and protective male-and-male child composition with realistic anatomy and natural interaction.
+
+HEAD POSITION & GAZE
+
+Male avatar tilts his head slightly toward the child while looking at the smartphone screen with a calm, relaxed expression. Male child faces toward the camera with a gentle, contented gaze and a subtle natural smile. Both maintain relaxed neck positioning and effortless natural alignment.
+
+MALE AVATAR
+
+FACIAL EXPRESSION
+
+The male displays a calm, slightly tired but affectionate expression while looking toward the smartphone screen. His eyes are relaxed and expressive, with naturally lowered eyebrows and a peaceful, protective presence. His lips are softly parted in a natural neutral expression, conveying quiet warmth and comfort.
+
+FACE & IDENTITY
+
+Adult male CGI avatar with a refined androgynous masculine facial structure, softly defined cheekbones, a delicate jawline, a straight refined nose, full natural lips, and expressive light grey-green eyes. His face features a fair warm complexion with realistic micro-pores, delicate freckles across the nose and cheeks, soft peach undertones, and a subtle hydrated sheen. Clearly fictional CGI beauty with stylized influencer proportions.
+
+HAIR
+
+Short platinum-blond hair styled in a tousled layered cut with a soft straight fringe across the forehead, airy volume, loose wispy strands, fluid natural fall, gentle movement around the temples, fine silky texture, realistic strand definition, subtle cool champagne tonal variations, and advanced Blender-style rendering.
+
+ACCESSORIES & DETAILS
+
+Small polished silver septum ring, subtle dark earrings, several silver rings on the hand holding the smartphone, and a blue iPhone 17 Pro Max with a smooth blue finish, prominent triple-lens camera system, realistic glass reflections, refined metallic details, and premium CGI material rendering.
+
+OUTFIT
+
+Soft blue-and-white plush hooded zip-up onesie featuring a cute blue alien-inspired character design, oversized floppy ears with pink inner lining, rounded decorative teeth around the hood, textured fuzzy fabric, a front zipper, and a small character pendant at the chest. Realistic textile texture, natural folds, smooth fabric draping, and cozy luxury loungewear styling.
+
+BODY & PHYSIQUE
+
+Fit masculine physique with broad shoulders, toned arms, and balanced proportions, featuring premium Blender CGI contour shading beneath the plush onesie.
+
+SKIN & REALISM
+
+Ultra-detailed Seedream 5.0 skin rendering with realistic pores, hydrated skin sheen, subtle glossy highlights, delicate freckles, and physically accurate subsurface scattering. Warm ambient bedroom lighting creates soft highlights across the forehead, nose, cheeks, lips, hands, and fingers. Natural CGI skin texture maintains polished Blender-style material realism without excessive smoothing while preserving luxury-avatar aesthetics.
+
+MALE BOY AVATAR
+
+FACIAL EXPRESSION
+
+The male child exhibits a gentle and contented expression, looking directly toward the camera with soft light blue-grey eyes. His lips form a subtle natural smile, with relaxed eyebrows and softly rounded cheeks conveying innocence, comfort, and quiet childhood happiness.
+
+FACE & IDENTITY
+
+Male child CGI avatar with a classic rounded child face, soft naturally full cheeks, a small delicate chin, a smooth forehead, a softly rounded nose, and balanced youthful facial proportions. He has large light blue-grey eyes with fine natural eyelashes and a gentle direct gaze. His skin is exceptionally fair and smooth with delicate warm undertones, subtle natural rosy highlights, realistic soft micro-texture, and a light natural scattering of freckles across the nose and cheeks. Clearly fictional CGI avatar aesthetics with refined Seedream realism.
+
+HAIR
+
+Medium-short light golden-blond hair styled in a soft tousled cut with a natural fringe beneath the hood, fine silky strands, gentle fluid fall, subtle wispy movement around the forehead and ears, realistic strand definition, warm honey-blond tonal variations, and advanced Blender-style hair rendering.
+
+ACCESSORIES & DETAILS
+
+Small character pendant attached near the zipper, soft plush hood with floppy ears and pink inner lining, and minimalist child styling with realistic CGI material rendering.
+
+OUTFIT
+
+Matching soft blue-and-white plush hooded zip-up onesie featuring a cute blue alien-inspired character design, oversized floppy ears with pink inner lining, rounded decorative teeth around the hood, fuzzy textured fabric, ribbed cuffs, a front zipper, natural folds, and cozy contemporary child styling.
+
+BODY & PHYSIQUE
+
+Realistic child anatomy with naturally rounded proportions, soft arms, delicate hands, gentle shoulders, age-appropriate body structure, relaxed seated posture, and realistic interaction with the male.
+
+SKIN & REALISM
+
+Ultra-detailed Seedream 5.0 skin rendering with realistic softness, subtle complexion variation, delicate child skin texture, faint freckles across the nose and cheeks, hydrated highlights, natural translucency, and physically accurate subsurface scattering. Skin appears smooth, healthy, and luminous while preserving realistic child characteristics and premium CGI avatar aesthetics.
+
+LIGHTING
+
+Warm ambient bedroom lighting creates soft golden highlights across the skin, platinum-blond and golden-blond hair, plush blue fabric, phone edges, and bedding while producing gentle realistic shadows. A subtle warm lamp glow illuminates the background, enhancing the cozy nighttime atmosphere, facial rendering, textile materials, and natural skin translucency.
+
+ENVIRONMENT
+
+Cozy modern bedroom at night featuring a bed covered with thick plush blue blankets, soft pillows, warm bedside lamp illumination, dark curtains, a softly glowing television or screen in the background, subtle contemporary interior details, and a comfortable luxury family lifestyle ambiance.
+
+MOOD & AESTHETIC
+
+Cozy nighttime family selfie blended with premium virtual-avatar realism, warm bedroom atmosphere, matching character loungewear, emotional warmth, intimate parent-male child connection, relaxed storytelling, modern comfort, polished CGI realism, refined influencer lifestyle, and high-end virtual-avatar beauty rendering.
+
+STYLE & RENDER QUALITY
+
+Ultra-photorealistic Blender Cycles CGI render, cinematic realism, Seedream 5.0 beauty rendering, 8K UHD quality, physically accurate lighting and materials, realistic skin micro-detail, IMVU-inspired beauty repaint style, high-fidelity male and male child avatar rendering, realistic depth of field, glossy beauty aesthetic, polished virtual influencer atmosphere, advanced ray tracing, realistic reflections, luxury editorial lighting, ultra-clean cinematic render quality, and clearly fictional CGI avatar aesthetics instead of a real photograph.
+
+
+                    </pre>
+                </div>
+                <!-- GIF adicionado na borda de baixo -->
+                <img data-src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExM243d2tiMGUzN2k5b3Q2NGR4cnRpbm42bDQzejNia2M4ZnV4amxydSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/z5pnjEeX0OcWQ/giphy.gif" class="gif-bottom-border">
+            </div>
+
+            <div class="card-body">
+                <button class="copy-btn" id="copyBtn" onclick="copyPrompt()">COPIAR PROMPT</button>
+                <p class="fallback-text">Se o botão não funcionar, selecione o texto e copie manualmente.</p>
+            </div>
+        </div>
+
+        <footer>
+            <a href="https://instagram.com/imvuluke" class="social-tag" target="_blank">MARQUE @IMVULUKE</a>
+            <div class="footer-legal">LUKE • TEZZA PROMPTS — Conteúdo protegido.</div>
+        </footer>
+    </div>
+
+    <div id="musicPlayerContainer">
+        <audio id="bgMusic" loop>
+            <source data-src="musicluke.mp3" type="audio/mpeg">
+        </audio>
+    </div>
+
+    <textarea id="hiddenTextarea" style="position: absolute; left: -9999px; opacity: 0;"></textarea>
+    <div id="notification">PROMPT COPIADO MARQUE @IMVULUKE!</div>
+
+    <script>
+        // Técnica para esconder do Instagram: Carregar imagens apenas via JS após o carregamento da página
+        window.addEventListener('DOMContentLoaded', () => {
+            // Carregar background do body
+            document.body.style.backgroundImage = "url('https://i.imgur.com/MmsiJQD.png')";
+            document.body.style.backgroundRepeat = "no-repeat";
+            document.body.style.backgroundPosition = "center center";
+            document.body.style.backgroundAttachment = "fixed";
+            document.body.style.backgroundSize = "cover";
+
+            // Carregar todas as imagens com data-src
+            const images = document.querySelectorAll('img[data-src]');
+            images.forEach(img => {
+                img.src = img.getAttribute('data-src');
+            });
+
+            // Carregar áudio
+            const audioSource = document.querySelector('source[data-src]');
+            if (audioSource) {
+                audioSource.src = audioSource.getAttribute('data-src');
+                audioSource.parentElement.load();
+            }
+        });
+
+        // Array de emojis com brilho para o efeito de sparkle
+        const sparkleEmojis = ['✨', '💫', '⭐', '🌟', '💥', '🎆'];
+        const colors = ['#ff69b4', '#8a2be2', '#00ff00', '#ffff00', '#ff6347', '#00bfff'];
+
+        function createSparkles(event) {
+            event.stopPropagation();
+            
+            for (let i = 0; i < 8; i++) {
+                const sparkle = document.createElement('div');
+                sparkle.classList.add('sparkle');
+                const emoji = sparkleEmojis[Math.floor(Math.random() * sparkleEmojis.length)];
+                sparkle.textContent = emoji;
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                sparkle.style.color = color;
+                sparkle.style.left = event.clientX + 'px';
+                sparkle.style.top = event.clientY + 'px';
+                const angle = (Math.PI * 2 * i) / 8;
+                const distance = 100;
+                const tx = Math.cos(angle) * distance;
+                const ty = Math.sin(angle) * distance;
+                sparkle.style.setProperty('--tx', tx + 'px');
+                sparkle.style.setProperty('--ty', ty + 'px');
+                document.body.appendChild(sparkle);
+                setTimeout(() => sparkle.remove(), 800);
+            }
+        }
+
+        function enterSite() {
+            const splash = document.getElementById('splashScreen');
+            const music = document.getElementById('bgMusic');
+            splash.style.opacity = '0';
+            splash.style.pointerEvents = 'none';
+            music.play().catch(e => console.log("Música carregando do GitHub:", e));
+            setTimeout(() => { 
+                splash.style.display = 'none'; 
+            }, 800);
+        }
+
+        function copyPrompt() {
+            const promptContent = document.getElementById('promptContent');
+            const promptText = promptContent.querySelector('pre').innerText;
+            const copyBtn = document.getElementById('copyBtn');
+            const notification = document.getElementById('notification');
+            const hiddenTextarea = document.getElementById('hiddenTextarea');
+            const textToCopy = promptText.trim() + "\n\n@imvuluke";
+            
+            hiddenTextarea.value = textToCopy;
+            hiddenTextarea.select();
+            
+            try {
+                document.execCommand('copy');
+                copyBtn.innerText = "Prompt Copiado!";
+                notification.style.display = 'block';
+                setTimeout(() => {
+                    notification.style.display = 'none';
+                    copyBtn.innerText = "Copiar Prompt";
+                }, 2000);
+            } catch (err) {
+                alert('Erro ao copiar.');
+            }
+        }
+    </script>
+</body>
+</html>
